@@ -1,0 +1,10 @@
+start local server on right
+
+ php Vendor/phpunit/phpunit/phpunit  Tests/Controllers/SpiritControllerTest.php
+  php Vendor/phpunit/phpunit/phpunit  Tests/Services/ChampionEmailAddressServiceTest.php --debug
+
+
+cd  backend
+php Vendor/phpunit/phpunit/phpunit
+
+
