@@ -1,22 +1,22 @@
 <?php
 namespace App\Controllers\Emails;
 // Ensure that the models are included or autoloaded properly
-use App\Models\Emails\EmailListMemberModel;
+use App\Models\Emails\EmailSeriesMemberModel;
 use App\Models\Emails\EmailModel;
 use App\Models\Emails\EmailQueModel;
 use App\Services\Debugging;
 
 
-class EmailListMemberController {
+class EmailSeriesMemberController {
 
-    private $emailListMemberModel;
+    private $emailSeriesMemberModel;
     private $emailQueModel;
     private $emailModel;
 
     // Inject all models via the constructor
-    public function __construct(EmailListMemberModel $emailListMemberModel, EmailModel $emailModel, EmailQueModel $emailQueModel)
+    public function __construct(EmailSeriesMemberModel $emailSeriesMemberModel, EmailModel $emailModel, EmailQueModel $emailQueModel)
     {
-        $this->emailListMemberModel = $emailListMemberModel;
+        $this->emailSeriesMemberModel = $emailSeriesMemberModel;
         $this->emailModel = $emailModel;
         $this->emailQueModel = $emailQueModel;
 
@@ -43,7 +43,7 @@ class EmailListMemberController {
         // Initialize the count of tips sent
         $count = 0;
         // Fetch new requests for tips
-        $newRequests = $this->emailListMemberModel->findNewRequestsForTips();
+        $newRequests = $this->emailSeriesMemberModel->findNewRequestsForTips();
 
         // Process each request
         foreach ($newRequests as $request) {
@@ -57,7 +57,7 @@ class EmailListMemberController {
                 ];
 
                 // Update the member with the new data
-                $this->emailListMemberModel->update($request['id'], $data);
+                $this->emailSeriesMemberModel->update($request['id'], $data);
                 $count++;
             } else {
                 error_log("Error sending email to member: " . $request['id']);
@@ -89,7 +89,7 @@ class EmailListMemberController {
         $count = 0;
 
         // Fetch new requests for tips
-        $nextRequests = $this->emailListMemberModel->findNextRequestsForTips();
+        $nextRequests = $this->emailSeriesMemberModel->findNextRequestsForTips();
         writeLog('processNextEmailTips-95', $nextRequests);
         // Process each request
         foreach ($nextRequests as $request) {
@@ -113,7 +113,7 @@ class EmailListMemberController {
             }
             writeLogAppend('processNextEmailTips-121', $data);
             // Update the member with the new data
-            $this->emailListMemberModel->update($request['id'], $data);
+            $this->emailSeriesMemberModel->update($request['id'], $data);
         }
         return $count;
     }
@@ -157,7 +157,7 @@ class EmailListMemberController {
    
     public function getMemberById($id)
     {
-        $member = $this->emailListMemberModel->findById($id);
+        $member = $this->emailSeriesMemberModel->findById($id);
 
         if ($member) {
             return $member;
@@ -169,7 +169,7 @@ class EmailListMemberController {
     // Handle a request to create a new member
     public function createMember($data)
     {
-        $result = $this->emailListMemberModel->create($data);
+        $result = $this->emailSeriesMemberModel->create($data);
 
         if ($result) {
             return 'Member created successfully';
@@ -181,7 +181,7 @@ class EmailListMemberController {
     // Handle a request to update a member
     public function updateMember($id, $data)
     {
-        $result = $this->emailListMemberModel->update($id, $data);
+        $result = $this->emailSeriesMemberModel->update($id, $data);
 
         if ($result) {
             return 'Member updated successfully';
@@ -193,7 +193,7 @@ class EmailListMemberController {
     // Handle a request to delete a member
     public function deleteMember($id)
     {
-        $result = $this->emailListMemberModel->delete($id);
+        $result = $this->emailSeriesMemberModel->delete($id);
 
         if ($result) {
             return json_encode(['message' => 'Member deleted successfully']);

@@ -1,7 +1,7 @@
 <?php
 
-use App\Controllers\Emails\EmailListMemberController;
-use App\Models\Emails\EmailListMemberModel;
+use App\Controllers\Emails\EmailSeriesMemberController;
+use App\Models\Emails\EmailSeriesMemberModel;
 use App\Models\Emails\EmailModel;
 use App\Services\Emails\EmailTipsService;
 use App\Services\Database\DatabaseService;
@@ -15,8 +15,8 @@ use App\Models\Emails\EmailQueModel;
 // Instantiate the DatabaseService
 $databaseService = new DatabaseService();
 
-// Instantiate the EmailListMemberModel with a DatabaseService dependency
-$emailListMemberModel = new EmailListMemberModel($databaseService); 
+// Instantiate the EmailSeriesMemberModel with a DatabaseService dependency
+$emailSeriesMemberModel = new EmailSeriesMemberModel($databaseService); 
 
 // Instantiate the EmailModel with a DatabaseService dependency
 $emailModel = new EmailModel($databaseService); 
@@ -24,18 +24,18 @@ $emailModel = new EmailModel($databaseService);
 // Instantiate the EmailQueModel with a DatabaseService dependency
 $emailQueModel = new EmailQueModel($databaseService);  
 
-// Instantiate the EmailTipsService using the EmailListMemberModel
-$emailTipsService = new EmailTipsService($emailListMemberModel);
+// Instantiate the EmailTipsService using the EmailSeriesMemberModel
+$emailTipsService = new EmailTipsService($emailSeriesMemberModel);
 
-// Instantiate the EmailListMemberController with required models
-$emailListMemberController = new EmailListMemberController(
-    $emailListMemberModel, 
+// Instantiate the EmailSeriesMemberController with required models
+$emailSeriesMemberController = new EmailSeriesMemberController(
+    $emailSeriesMemberModel, 
     $emailModel, 
     $emailQueModel
 );
 
 // Process new email tips and log an error if it fails
-$result = $emailListMemberController->processNewEmailTips();
+$result = $emailSeriesMemberController->processNewEmailTips();
 if (!$result) {
     error_log ("Error processing email tips.");
 }

@@ -18,7 +18,7 @@ Class SanitizeInputService
         foreach ($data as $name => $value) {
             if (preg_match('/^mail_lists\[[^\]]+\]$/', $name)) {
                 // If value is null, sanitize it differently or handle it specifically
-                $sanitizedMailLists[] = is_null($value) ? null : filter_var($value, FILTER_SANITIZE_STRING);
+                $sanitizedMailLists[] = is_null($value) ? null : $this->sanitizeString($value);
             } else {
                 switch ($name) {
                     case 'email':
@@ -31,7 +31,8 @@ Class SanitizeInputService
                         break;
                     default:
                         // Handle generic fields, allowing null to be assigned
-                        $sanitized[$name] = is_null($value) ? null : filter_var($value, FILTER_SANITIZE_STRING);
+                        $sanitized[$name] = is_null($value) ? null : 
+                        $this->sanitizeString($value);
                         break;
                 }
             }
@@ -54,5 +55,8 @@ Class SanitizeInputService
         // Sanitize the HTML input
         $clean_html = $purifier->purify($text);
         return $clean_html;
+    }
+    public function sanitizeString($input){
+        return $sanitized_string = trim(htmlspecialchars($input, ENT_QUOTES, 'UTF-8'));
     }
 }

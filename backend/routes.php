@@ -7,12 +7,17 @@ $path = PATH;
 get($path, '/App/Views/indexLocal.php');
 get($path . 'admin/exists', 'App/API/People/AdminExists.php');
 get($path . 'cron/tips/first', 'App/API/Emails/EmailFirstTips.php');
-get($path . 'cron/tips/next', 'App/API/Emails/EmailNextTips.php');
+get($path . 'cron/tips/first', 'App/API/Emails/EmailFirstTips.php');
+
 get($path . 'email/$id', 'App/API/Emails/GetEmail.php');
 get($path . 'email/ad/recent/$number', 'App/API/Emails/AddRecentTitles.php');
 get($path . 'email/blog/recent/$number', 'App/API/Emails/BlogRecentTitles.php');
 get($path . 'email/series/$series/$sequence', 'App/API/Emails/SeriesEmailText.php');
 get($path . 'email/view/$id', 'App/API/Emails/GetEmailView.php');
+get($path . 'import/champions', 'App/API/Import/ImportChampions.php');
+get($path . 'import/list/members', 'App/API/Import/ImportEmailSeriesMembers.php');
+get($path . 'import/materials', 'App/API/Import/ImportMaterials.php');
+get($path . 'import/downloads', 'App/API/Import/ImportDownloads.php');
 get($path . 'spirit/text/$language', 'App/API/Materials/getSpiritText.php');
 get($path . 'spirit/titles', 'App/API/Materials/getSpiritTitles.php');
 get($path . 'test', 'App/API/Materials/getTractsToView.php');

@@ -9,13 +9,15 @@ export const useAuthStore = defineStore('auth', {
   }),
 
   getters: {
-    isAuthenticated: (state) => !!state.user,
+    isAuthenticated: (state) => state.user !== null && state.user !== undefined,
   },
+  
 
   actions: {
     async checkIfAdministratorExists() {
       try {
         const { data } = await axiosService.get('admin/exists', { skipUserId: true });
+        console.log('Admin exists:', data);
         this.administratorExists = data.data === 'TRUE';
       } catch (error) {
         console.error('Failed to check if admin exists:', error);
@@ -46,6 +48,7 @@ export const useAuthStore = defineStore('auth', {
           alert('Invalid username or password');
           return 'Invalid username or password';
         }
+        console.log('Login success:', data);
         this.token = data.token;
         this.user = data.user;
         return 'Success';

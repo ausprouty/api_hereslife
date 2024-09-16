@@ -19,17 +19,18 @@ use App\Services\Database\DatabaseService;
 
 // Instantiate the DatabaseService with the 'standard' database
 $databaseService = new DatabaseService('standard');
+writeLog('AdminExists-21', 'standard');
 
 // Verify if there is an administrator in the system
 $administratorModel = new AdministratorModel($databaseService);
 $administratorExists = $administratorModel->exists(); // Returns true if an administrator exists, otherwise false
-
+writeLog('AdminExists-27', $administratorExists );
 // Prepare the response data with the existence status
 $response = [
     'success' => true,            // Indicates the request was successfully processed
     'data' => $administratorExists, // Boolean indicating whether an administrator exists
 ];
-
+writeLog('AdminExists-33', $response );
 // Output the response as JSON
 echo json_encode($response);
 

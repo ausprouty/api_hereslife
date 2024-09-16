@@ -1,27 +1,27 @@
 <?php
 use PHPUnit\Framework\TestCase;
-use App\Controllers\Emails\EmailListMemberController;
-use App\Models\Emails\EmailListMemberModel;
+use App\Controllers\Emails\EmailSeriesMemberController;
+use App\Models\Emails\EmailSeriesMemberModel;
 use App\Models\Emails\EmailModel;
 use App\Models\Emails\EmailQueModel;
 
-class EmailListMemberControllerTest extends TestCase
+class EmailSeriesMemberControllerTest extends TestCase
 {
-    protected $emailListMemberModel;
+    protected $emailSeriesMemberModel;
     protected $emailModel;
     protected $emailQueModel;
-    protected $emailListMemberController;
+    protected $emailSeriesMemberController;
 
     protected function setUp(): void
     {
         // Create mocks for models
-        $this->emailListMemberModel = $this->createMock(EmailListMemberModel::class);
+        $this->emailSeriesMemberModel = $this->createMock(EmailSeriesMemberModel::class);
         $this->emailModel = $this->createMock(EmailModel::class);
         $this->emailQueModel = $this->createMock(EmailQueModel::class);
 
         // Create the controller instance
-        $this->emailListMemberController = new EmailListMemberController(
-            $this->emailListMemberModel,
+        $this->emailSeriesMemberController = new EmailSeriesMemberController(
+            $this->emailSeriesMemberModel,
             $this->emailModel,
             $this->emailQueModel
         );
@@ -55,17 +55,17 @@ class EmailListMemberControllerTest extends TestCase
         ];
 
         // Expect findNewRequestsForTips() to return the mock data
-        $this->emailListMemberModel->method('findNewRequestsForTips')
+        $this->emailSeriesMemberModel->method('findNewRequestsForTips')
             ->willReturn($newRequests);
 
         // Mock queTipForMember() to always return 'TRUE' for this test
-        $this->emailListMemberController
+        $this->emailSeriesMemberController
             ->expects($this->exactly(2)) // Two updates (records 2 and 3)
             ->method('queTipForMember')
             ->willReturn('TRUE');
 
         // Mock the update method to ensure it gets called with the right data
-        $this->emailListMemberModel
+        $this->emailSeriesMemberModel
             ->expects($this->once()) // Only the member who subscribed 40 min ago should be updated
             ->method('update')
             ->with(
@@ -76,6 +76,6 @@ class EmailListMemberControllerTest extends TestCase
             );
 
         // Run the processNewEmailTips method
-        $this->emailListMemberController->processNewEmailTips();
+        $this->emailSeriesMemberController->processNewEmailTips();
     }
 }

@@ -1,11 +1,15 @@
 <?php
 // index.php
+error_log('index-1');
 
 // Load the appropriate environment configuration
 require_once __DIR__ . '/App/Configuration/config.php'; // Load environment-specific config
-
+error_log('index-7');
 // Load Debugging tools
 require_once __DIR__ . '/App/Services/Debugging.php'; 
+error_log('index-10');
+writeLog('index-13', 'Loaded Debugging tools');
+writeLog('index-14', 'ENVIRONMENT: ' . ENVIRONMENT);
 // Error reporting based on environment
 if ($_SERVER['SERVER_NAME'] === 'localhost') {
     error_reporting(E_ALL);

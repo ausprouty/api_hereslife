@@ -5,7 +5,7 @@ use App\Services\Database\DatabaseService;
 use App\Services\Debugging;
 use PDO;
 
-class EmailListMemberModel {
+class EmailSeriesMemberModel {
 
     private $databaseService;
 
@@ -22,11 +22,11 @@ class EmailListMemberModel {
             'list_id' => null,
             'list_name' => null,
             'champion_id' => null,
-            'subscribed' => 0, // Default: not subscribed
+            'subscribed_date' => 0, // Default: not subscribed
             'last_tip_sent' => 0,
-            'last_tip_sent_time' => null,
+            'last_tip_sent_date' => null,
             'finished_all_tips' => 0,
-            'unsubscribed' => 0
+            'unsubscribed_date' => 0
         ];
 
         // Merge provided data with defaults
@@ -36,29 +36,29 @@ class EmailListMemberModel {
         $this->list_id = $data['list_id'];
         $this->list_name = $data['list_name'];
         $this->champion_id = $data['champion_id'];
-        $this->subscribed = $data['subscribed'];
+        $this->subscribed_date = $data['subscribed_date'];
         $this->last_tip_sent = $data['last_tip_sent'];
-        $this->last_tip_sent_time = $data['last_tip_sent_time'];
-        $this->finished_all_tips = $data['finished_all_tips'];
-        $this->unsubscribed = $data['unsubscribed'];
+        $this->last_tip_sent_date = $data['last_tip_sent_date'];
+        $this->finished_all_tips_date = $data['finished_all_tips_date'];
+        $this->unsubscribed_date = $data['unsubscribed_date'];
     }
 
     // This method inserts the object's values into the database
     public function insert() {
         $query = "INSERT INTO hl_email_list_members 
-                    (list_id, list_name, champion_id, subscribed, last_tip_sent, last_tip_sent_time, finished_all_tips, unsubscribed)
+                    (list_id, list_name, champion_id, subscribed_date, last_tip_sent, last_tip_sent_date, finished_all_tips, unsubscribed_date)
                   VALUES 
-                    (:list_id, :list_name, :champion_id, :subscribed, :last_tip_sent, :last_tip_sent_time, :finished_all_tips, :unsubscribed)";
+                    (:list_id, :list_name, :champion_id, :subscribed_date, :last_tip_sent, :last_tip_sent_date, :finished_all_tips, :unsubscribed_date)";
 
         $params = [
             ':list_id' => $this->list_id,
             ':list_name' => $this->list_name,
             ':champion_id' => $this->champion_id,
-            ':subscribed' => $this->subscribed,
+            ':subscribed_date' => $this->subscribed_date
             ':last_tip_sent' => $this->last_tip_sent,
-            ':last_tip_sent_time' => $this->last_tip_sent_time,
+            ':last_tip_sent_date' => $this->last_tip_sent_date,
             ':finished_all_tips' => $this->finished_all_tips,
-            ':unsubscribed' => $this->unsubscribed
+            ':unsubscribed_date' => $this->unsubscribed_date
         ];
 
         // Execute the query
@@ -75,7 +75,7 @@ class EmailListMemberModel {
     }
 
     public function update($id, $data) {
-        writeLogAppend('EmailListMemeberModel-78', $data);
+        writeLogAppend('EmailSeriesMemeberModel-78', $data);
         $fields = [];
         $params = [':id' => $id];
         // Dynamically build the query
@@ -87,8 +87,8 @@ class EmailListMemberModel {
         $query = "UPDATE hl_email_list_members 
                   SET " . implode(', ', $fields) . " 
                   WHERE id = :id";
-        writeLogAppend('EmailListMemeberModel-90', $query);
-        writeLogAppend('EmailListMemeberModel-91', $params);
+        writeLogAppend('EmailSeriesMemeberModel-90', $query);
+        writeLogAppend('EmailSeriesMemeberModel-91', $params);
         
         return $this->databaseService->executeUpdate($query, $params);
     }
@@ -102,7 +102,7 @@ class EmailListMemberModel {
 
     // Find a record by its ID
     public function findById($id) {
-        $query = "SELECT id, list_id, list_name, champion_id, subscribed, last_tip_sent, last_tip_sent_time, finished_all_tips, unsubscribed
+        $query = "SELECT id, list_id, list_name, champion_id, subscribed_date, last_tip_sent, last_tip_sent_date, finished_all_tips, unsubscribed_date
                   FROM hl_email_list_members 
                   WHERE id = :id
                   LIMIT 1";
@@ -113,7 +113,7 @@ class EmailListMemberModel {
 
     // Find all records
     public function findAll() {
-        $query = "SELECT id, list_id, list_name, champion_id, subscribed, last_tip_sent, last_tip_sent_time, finished_all_tips, unsubscribed
+        $query = "SELECT id, list_id, list_name, champion_id, subscribed_date, last_tip_sent, last_tip_sent_date, finished_all_tips, unsubscribed_date
                   FROM hl_email_list_members";
         $results = $this->databaseService->executeQuery($query);
         return $results->fetchAll(PDO::FETCH_ASSOC);
@@ -121,7 +121,7 @@ class EmailListMemberModel {
 
     // Find all members of a specific list
     public function findByListId($list_id) {
-        $query = "SELECT id, list_id, list_name, champion_id, subscribed, last_tip_sent, last_tip_sent_time, finished_all_tips, unsubscribed
+        $query = "SELECT id, list_id, list_name, champion_id, subscribed_date, last_tip_sent, last_tip_sent_date, finished_all_tips, unsubscribed_date
                   FROM hl_email_list_members 
                   WHERE list_id = :list_id";
         $params = [':list_id' => $list_id];
@@ -131,17 +131,17 @@ class EmailListMemberModel {
 
     // Find all active (subscribed) members
     public function findSubscribedMembers() {
-        $query = "SELECT id, list_id, list_name, champion_id, subscribed, last_tip_sent, last_tip_sent_time, finished_all_tips, unsubscribed
+        $query = "SELECT id, list_id, list_name, champion_id, subscribed_date, last_tip_sent, last_tip_sent_date, finished_all_tips, unsubscribed_date
                   FROM hl_email_list_members 
-                  WHERE unsubscribed IS NULL";
+                  WHERE unsubscribed_date IS NULL";
         $results = $this->databaseService->executeQuery($query);
         return $results->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function findNewRequestsForTips() {
-        $query = "SELECT id, list_id, list_name, champion_id, subscribed, last_tip_sent, last_tip_sent_time, finished_all_tips, unsubscribed
+        $query = "SELECT id, list_id, list_name, champion_id, subscribed_date, last_tip_sent, last_tip_sent_date, finished_all_tips, unsubscribed_date
                   FROM hl_email_list_members
-                  WHERE unsubscribed IS NULL
+                  WHERE unsubscribed_date IS NULL
                   AND subscribed <= NOW() - INTERVAL 30 MINUTE
                   AND last_tip_sent = 0";
         
@@ -149,10 +149,10 @@ class EmailListMemberModel {
         return $results->fetchAll(PDO::FETCH_ASSOC);
     }
     public function findNextRequestsForTips() {
-        $query = "SELECT id, list_id, list_name, champion_id, subscribed, last_tip_sent, last_tip_sent_time, finished_all_tips, unsubscribed
+        $query = "SELECT id, list_id, list_name, champion_id, subscribed_date, last_tip_sent, last_tip_sent_date, finished_all_tips, unsubscribed_date
                   FROM hl_email_list_members
-                  WHERE unsubscribed IS NULL
-                  AND last_tip_sent_time <= NOW() - INTERVAL 7 DAY
+                  WHERE unsubscribed_date IS NULL
+                  AND last_tip_sent_date <= NOW() - INTERVAL 7 DAY
                   AND finished_all_tips IS NULL";
         
         $results = $this->databaseService->executeQuery($query);

@@ -1,23 +1,23 @@
 <?php
 namespace App\Services\Emails;
 
-use App\Models\Emails\EmailListMemberModel;
+use App\Models\Emails\EmailSeriesMemberModel;
 
 class EmailTipsService
 {
-    private $emailListMemberModel;
+    private $emailSeriesMemberModel;
 
-    // Inject the EmailListMemberModel via constructor
-    public function __construct(EmailListMemberModel $emailListMemberModel)
+    // Inject the EmailSeriesMemberModel via constructor
+    public function __construct(EmailSeriesMemberModel $emailSeriesMemberModel)
     {
-        $this->emailListMemberModel = $emailListMemberModel;
+        $this->emailSeriesMemberModel = $emailSeriesMemberModel;
     }
 
     // Process new requests and send tips
     public function processNewRequestsForTips()
     {
         // Fetch new requests for tips from the model
-        $newRequests = $this->emailListMemberModel->findNewRequestsForTips();
+        $newRequests = $this->emailSeriesMemberModel->findNewRequestsForTips();
 
         // Loop through each new request and send the tips
         foreach ($newRequests as $request) {
@@ -27,7 +27,7 @@ class EmailTipsService
                 'last_tip_sent' => 1, // Current time
                 'last_tip_sent_time' => Now(),
             ];
-            $this->emailListMemberModel->update($request['id'], $data);
+            $this->emailSeriesMemberModel->update($request['id'], $data);
         }
     }
 

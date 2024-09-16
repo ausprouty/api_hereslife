@@ -26,6 +26,10 @@ class TimeService {
     public function getDaysAgo($days) {
         return strtotime("- $days days");
     }
+    public static function timestampToDate($unixTimestamp) {
+        return date('Y-m-d', $unixTimestamp); // Simple and direct
+    }
+    
 
     public function getTimestamp($variableName, $default = 0) {
         $baseDir = realpath(APP_FILEDIR . 'Storage/Timestamps/');

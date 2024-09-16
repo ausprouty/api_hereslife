@@ -1,5 +1,3 @@
-
-text/x-generic .htaccess ( UTF-8 Unicode text )
 RewriteEngine On
 
 # Handle Authorization Header
@@ -10,13 +8,12 @@ RewriteRule ^(.*) - [E=HTTP_AUTHORIZATION:%1]
 RewriteCond %{REQUEST_URI} ^/backend
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^backend/(.*)$ /backend/routes.php [QSA,L]
+RewriteRule ^backend/(.*)$ /backend/index.php [QSA,L]
 
 # Set PHP include path for backend
 <IfModule mod_php.c>
     <Files "routes.php">
-        php_value include_path ".:C:\ampp\htdocs\api_hereslife\backend\App\Libraries\HtmlPurifierStandalone""
-
+        php_value include_path ".:C:\ampp\htdocs\api_hereslife\backend\App\Libraries\HtmlPurifierStandalone"
     </Files>
 </IfModule>
 

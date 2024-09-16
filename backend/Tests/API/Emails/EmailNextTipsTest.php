@@ -1,28 +1,28 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use App\Controllers\Emails\EmailListMemberController;
-use App\Models\Emails\EmailListMemberModel;
+use App\Controllers\Emails\EmailSeriesMemberController;
+use App\Models\Emails\EmailSeriesMemberModel;
 use App\Models\Emails\EmailModel;
 use App\Models\Emails\EmailQueModel;
 
 class EmailNextTipsTest extends TestCase
 {
-    protected $emailListMemberModel;
+    protected $emailSeriesMemberModel;
     protected $emailModel;
     protected $emailQueModel;
-    protected $emailListMemberController;
+    protected $emailSeriesMemberController;
 
     protected function setUp(): void
     {
         // Create mocks for models and other dependencies
-        $this->emailListMemberModel = $this->createMock(EmailListMemberModel::class);
+        $this->emailSeriesMemberModel = $this->createMock(EmailSeriesMemberModel::class);
         $this->emailModel = $this->createMock(EmailModel::class);
         $this->emailQueModel = $this->createMock(EmailQueModel::class);
 
         // Create the controller instance with the mocked models
-        $this->emailListMemberController = $this->getMockBuilder(EmailListMemberController::class)
-            ->setConstructorArgs([$this->emailListMemberModel, $this->emailModel, $this->emailQueModel])
+        $this->emailSeriesMemberController = $this->getMockBuilder(EmailSeriesMemberController::class)
+            ->setConstructorArgs([$this->emailSeriesMemberModel, $this->emailModel, $this->emailQueModel])
             ->onlyMethods(['findTipForSeries', 'queTipForMember'])
             ->getMock();
     }
@@ -55,11 +55,11 @@ class EmailNextTipsTest extends TestCase
         ];
 
         // Mock the method findNextRequestsForTips to return the test data
-        $this->emailListMemberModel->method('findNextRequestsForTips')
+        $this->emailSeriesMemberModel->method('findNextRequestsForTips')
             ->willReturn($nextRequests);
 
         // Mock the findTipForSeries to return valid email IDs for each tip
-        $this->emailListMemberController
+        $this->emailSeriesMemberController
             ->method('findTipForSeries')
             ->willReturnCallback(function ($listName, $sequence) {
                 if ($listName == 'tracts' && $sequence <= 10) {
@@ -69,7 +69,7 @@ class EmailNextTipsTest extends TestCase
             });
 
         // Mock the queTipForMember method to simulate queuing email
-        $this->emailListMemberController
+        $this->emailSeriesMemberController
             ->method('queTipForMember')
             ->willReturnCallback(function ($championId, $listName, $nextTip) {
                 // Member 2 should receive the next tip, Member 3 has finished all tips
@@ -92,7 +92,7 @@ class EmailNextTipsTest extends TestCase
             ]);
 
         // Mock the update method to ensure it gets called correctly
-        $this->emailListMemberModel
+        $this->emailSeriesMemberModel
             ->expects($this->exactly(2)) // Expect 2 updates: Member 2 and Member 3
             ->method('update')
             ->withConsecutive(
@@ -107,6 +107,6 @@ class EmailNextTipsTest extends TestCase
             );
 
         // Run the processNextEmailTips method
-        $this->emailListMemberController->processNextEmailTips();
+        $this->emailSeriesMemberController->processNextEmailTips();
     }
 }
