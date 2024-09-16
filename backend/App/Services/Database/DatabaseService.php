@@ -108,6 +108,61 @@ class DatabaseService {
     }
 
     /**
+ * Executes a SQL query and returns an array of values from a single column.
+ *
+ * @param string $query The SQL query to execute.
+ * @param array $params Optional parameters for prepared statement.
+ * @return array An array of values from the specified column.
+ * @throws Exception If query execution fails.
+ */
+public function fetchColumn(string $query, array $params = []): array {
+    try {
+        $statement = $this->dbConnection->prepare($query);
+        $statement->execute($params);
+        return $statement->fetchAll(PDO::FETCH_COLUMN);
+    } catch (PDOException $e) {
+        throw new Exception("Error executing the query: " . $e->getMessage());
+    }
+}
+/**
+ * Executes a SQL query and returns a single value (first column of the first row).
+ *
+ * @param string $query The SQL query to execute.
+ * @param array $params Optional parameters for prepared statement.
+ * @return mixed The single value result (could be string, integer, etc.), or null if no rows are returned.
+ * @throws Exception If query execution fails.
+ */
+public function fetchSingleValue(string $query, array $params = [])
+{
+    try {
+        $statement = $this->dbConnection->prepare($query);
+        $statement->execute($params);
+        return $statement->fetchColumn();
+    } catch (PDOException $e) {
+        throw new Exception("Error executing the query: " . $e->getMessage());
+    }
+}
+/**
+ * Executes a SQL query and returns all rows as an associative array.
+ *
+ * @param string $query The SQL query to execute.
+ * @param array $params Optional parameters for prepared statement (for binding values like email IDs).
+ * @return array The result set as an associative array.
+ * @throws Exception If query execution fails.
+ */
+public function fetchAll(string $query, array $params = []): array
+{
+    try {
+        $statement = $this->dbConnection->prepare($query);
+        $statement->execute($params);
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        throw new Exception("Error executing the query: " . $e->getMessage());
+    }
+}
+
+
+    /**
      * Retrieves the last inserted ID from the database.
      *
      * @return string The last inserted ID.
