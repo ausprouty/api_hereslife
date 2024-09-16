@@ -45,7 +45,7 @@ class EmailModel {
 
     // This method inserts the object's data into the database
     public function insert() {
-        $query = "INSERT INTO hl_emails (subject, body, plain_text_only, headers, template, series, sequence, params)
+        $query = "INSERT INTO hl_email_series (subject, body, plain_text_only, headers, template, series, sequence, params)
                   VALUES (:subject, :body, :plain_text_only, :headers, :template, :series, :sequence, :params)";
         
         $params = [
@@ -87,7 +87,7 @@ class EmailModel {
         }
         
         // Construct the query using the dynamically built fields
-        $query = "UPDATE hl_emails 
+        $query = "UPDATE hl_email_series 
                   SET " . implode(', ', $fields) . " 
                   WHERE id = :id";
         
@@ -96,13 +96,13 @@ class EmailModel {
 
 
     public function delete($id) {
-        $query = "DELETE FROM hl_emails WHERE id = :id";
+        $query = "DELETE FROM hl_email_series WHERE id = :id";
         $params = [':id' => $id];
         return $this->databaseService->executeUpdate($query, $params);
     }
     public function findById($id) {
         $query = "SELECT id, subject, body, plain_text_only, headers, template, series, sequence, params
-                  FROM hl_emails 
+                  FROM hl_email_series 
                   WHERE id = :id
                   LIMIT 1";
         $params = [':id' => $id];
@@ -111,13 +111,13 @@ class EmailModel {
     }
     public function findAll() {
         $query = "SELECT id, subject, body, plain_text_only, headers, template, series, sequence, params
-                  FROM hl_emails";
+                  FROM hl_email_series";
         $results = $this->databaseService->executeQuery($query);
         return $results->fetchAll(PDO::FETCH_ASSOC);
     }
     public function findOneInSeries($series, $sequence) {
         $query = "SELECT id, subject, body, plain_text_only, headers, template, series, sequence, params
-                  FROM hl_emails 
+                  FROM hl_email_series 
                   WHERE series = :series
                   AND sequence = :sequence
                   LIMIT 1";
@@ -127,7 +127,7 @@ class EmailModel {
     }
     public function findIdForSeries($series, $sequence) {
         $query = "SELECT id
-                  FROM hl_emails 
+                  FROM hl_email_series 
                   WHERE series = :series
                   AND sequence = :sequence
                   LIMIT 1";
@@ -138,7 +138,7 @@ class EmailModel {
     public function getRecentBlogTitles($number) {
         $int = (int)$number;
         $query = "SELECT subject, id
-                  FROM hl_emails
+                  FROM hl_email_series
                   WHERE series = 'blog'                 
                   ORDER BY id DESC
                   LIMIT $int";

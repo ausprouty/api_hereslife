@@ -20,11 +20,12 @@ use App\Models\Emails\EmailModel;
 
 // Assuming $series and $sequence are passed from the router
 // Validate inputs (Router should pass valid types, but still good to validate)
+$sequence = (int) $sequence;  // Explicitly cast sequence to integer
 if (empty($series) || !is_string($series) || is_null($sequence) || !is_int($sequence)) {
     // Invalid inputs, return an error response
     $response = [
         'success' => false,
-        'message' => 'Invalid series or sequence number provided.',
+        'message' => "Invalid series ($series) or sequence number ($sequence) provided."
     ];
     
     header('Content-Type: application/json');

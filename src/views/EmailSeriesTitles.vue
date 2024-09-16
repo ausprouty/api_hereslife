@@ -7,7 +7,7 @@
         </option>
       </select>
   
-      <table v-if="emailSeries.length">
+      <table v-if="emailSeries.length" class="email-table">
         <thead>
           <tr>
             <th>Sequence</th>
@@ -15,8 +15,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(email, index) in emailSeries" :key="index" @click="goToEmailDetails(email.series_sequence, selectedSeries)">
-            <td>{{ email.series_sequence }}</td>
+          <tr v-for="(email, index) in emailSeries" :key="index" @click="goToEmailDetails(email.sequence, selectedSeries)">
+            <td>{{ email.sequence }}</td>
             <td>{{ email.subject }}</td>
           </tr>
         </tbody>
@@ -29,10 +29,11 @@
   <script>
   import { ref } from 'vue';
   import axiosService from '@/services/AxiosService'; // assuming you have a service file
-  
+  import { useRouter } from 'vue-router'; // Import the router
   export default {
     name: 'EmailSeriesTitles',
     setup() {
+      const router = useRouter(); // Use the router
       const selectedSeries = ref('');
       const emailSeries = ref([]);
       const errorMessage = ref('');
@@ -52,8 +53,14 @@
         if (!selectedSeries.value) return;
         try {
           const response = await axiosService.get(`email/series/titles/${selectedSeries.value}`, { skipUserId: true });
-          emailSeries.value = response.data; // assuming data is the array of email series
-          errorMessage.value = '';
+          console.log (response)
+          if (response.data.success == false){
+            errorMessage.value = response.data.message;
+            emailSeries.value = [];
+          }else{
+            errorMessage.value = '';
+            emailSeries.value = response.data.data; // Assuming the data is an array of objects
+          }
         } catch (error) {
           errorMessage.value = 'Failed to fetch series data';
           // Use alert or error service here if preferred
@@ -61,10 +68,10 @@
         }
       };
   
-      const goToEmailDetails = (sequence, series) => {
-        // Assuming your router is properly set up
-        this.$router.push(`/email/series/${series}/${sequence}`);
-      };
+      // Function to navigate to email details
+    const goToEmailDetails = (sequence, series) => {
+      router.push(`/email/series/${series}/${sequence}`); // Navigate using the router
+    };
   
       return {
         selectedSeries,
@@ -83,5 +90,31 @@
     color: red;
     margin-top: 10px;
   }
+
+.email-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+.email-table th, .email-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left; /* Ensure text is left-aligned */
+}
+
+.email-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.email-table tr {
+  cursor: pointer;
+}
+
+.email-table tr:hover {
+  background-color: #f1f1f1; /* Highlight row on hover */
+}
+
   </style>
   
