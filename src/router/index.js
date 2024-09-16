@@ -4,6 +4,7 @@ import { useAuthStore } from '@/stores/AuthStore'; // Import your Pinia store
 import SeriesEditor from '@/views/SeriesEditor.vue'; // Adjust the path as necessary
 import HelloWorld from '@/views/HelloWorld.vue'; // Adjust the path as necessary
 import EmailSendDirect from '@/views/EmailSendDirect.vue'; 
+import EmailSeriesTitles from '@/views/EmailSeriesTitles.vue';
 import EmailSendQue from '@/views/EmailSendQue.vue';
 import LoginUser from '@/views/LoginUser.vue';
 
@@ -15,10 +16,16 @@ const routes = [
     component: HelloWorld,
   },
   {
+    path: '/email/series/titles',
+    name: 'SeriesTitles',
+    component: EmailSeriesTitles,
+  },
+  {
     path: '/email/series/:series?/:sequence?',
     name: 'SeriesEditor',
     component: SeriesEditor,
   },
+  
   {
     path: '/email/direct',
     name: 'EmailSendDirect',

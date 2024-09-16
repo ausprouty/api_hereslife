@@ -25,10 +25,11 @@
         {
           name: 'Emails',
           items: [
+          { title: 'Email Series Titles', path: '/email/series/titles' },
             { title: 'Series Editor', path: '/email/series/any/1' },
             { title: 'Send Que', path: '/email/que' },
             { title: 'Send Direct', path: '/email/direct/' },
-            { title: 'Email 4', path: '/emails/4' },
+            
             { title: 'Email 5', path: '/emails/5' }
           ]
         },

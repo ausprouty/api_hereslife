@@ -12,6 +12,7 @@ get($path . 'cron/tips/first', 'App/API/Emails/EmailFirstTips.php');
 get($path . 'email/$id', 'App/API/Emails/GetEmail.php');
 get($path . 'email/ad/recent/$number', 'App/API/Emails/AddRecentTitles.php');
 get($path . 'email/blog/recent/$number', 'App/API/Emails/BlogRecentTitles.php');
+get($path . 'email/series/titles/$series', 'App/API/Emails/SeriesEmailTitles.php');
 get($path . 'email/series/$series/$sequence', 'App/API/Emails/SeriesEmailText.php');
 get($path . 'email/view/$id', 'App/API/Emails/GetEmailView.php');
 get($path . 'import/champions', 'App/API/Import/ImportChampions.php');
