@@ -48,6 +48,7 @@
         { name: 'Followup', public_name: 'Followup' },
         { name: 'MyFriends', public_name: 'MyFriends' },
         { name: 'Tracts', public_name: 'Tracts' }
+        { name: 'Blog', public_name: 'Blog' }
       ];
   
       const fetchSeriesData = async () => {

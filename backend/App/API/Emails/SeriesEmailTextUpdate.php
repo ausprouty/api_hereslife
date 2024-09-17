@@ -25,12 +25,12 @@ use App\Models\Emails\EmailModel;
  */
 
 // Step 1: Fetch POST input data (assuming it's from a frontend form or API call)
-writeLog('SeriesEmailTextUpdate-28', $postData);
+
 
 // Step 2: Validate request and check admin authorization
 // Use the RequestValidator to ensure that the request is from an authorized admin
 RequestValidator::validateAdmin($postData, 'SeriesEmailTextUpdate');
-writeLog('SeriesEmailTextUpdate-33', 'Step 2: Validate request and check admin authorization');
+
 // Step 3: Instantiate necessary services
 // Initialize the DatabaseService to handle database interactions
 $databaseService = new DatabaseService();
@@ -38,11 +38,11 @@ $databaseService = new DatabaseService();
 // Step 4: Instantiate the EmailController
 // EmailController will use the EmailModel, which depends on DatabaseService
 $emailController = new EmailController(new EmailModel($databaseService));
-writeLog('SeriesEmailTextUpdate-36', 'Step 4: Instantiate the EmailController');   
+  
 // Step 5: Update the email in the series using the EmailController
 // Pass the $postData to update the email with provided series, sequence, subject, body, etc.
 $data = $emailController->updateEmailFromInputData($postData);
-writeLog('SeriesEmailTextUpdate-40', 'Step 5: Update the email in the series using the EmailController');   
+  
 // Step 6: Prepare the response array indicating success
 $response = [
     'success' => true,                        // Status of the update operation

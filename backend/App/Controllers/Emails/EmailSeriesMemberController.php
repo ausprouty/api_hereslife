@@ -90,15 +90,10 @@ class EmailSeriesMemberController {
 
         // Fetch new requests for tips
         $nextRequests = $this->emailSeriesMemberModel->findNextRequestsForTips();
-        writeLog('processNextEmailTips-95', $nextRequests);
         // Process each request
         foreach ($nextRequests as $request) {
-            writeLogAppend('processNextEmailTips-97', $request);
-            
-
             $nextTip = $request['last_tip_sent'] + 1;
             $result = $this->queTipForMember($request['champion_id'], $request['list_name'], $nextTip);
-            writeLogAppend('processNextEmailTips-108', $result);
             if ($result == 'TRUE') {
                 // Update the last_tip_sent and last_tip_sent_time fields
                 $data = [
@@ -111,7 +106,6 @@ class EmailSeriesMemberController {
                     'finished_all_tips' => 1, 
                 ];
             }
-            writeLogAppend('processNextEmailTips-121', $data);
             // Update the member with the new data
             $this->emailSeriesMemberModel->update($request['id'], $data);
         }
@@ -139,9 +133,7 @@ class EmailSeriesMemberController {
 
     public function queTipForMember($champion_id, $list_name, $sequence)
     {
-        writeLogAppend('queTipForMember-149', "$champion_id, $list_name, $sequence");
         $email_id = $this->findTipForSeries($list_name, $sequence);
-        writeLogAppend('queTipForMember-151', $email_id);
         if (!$email_id || $email_id == null) {
             return 'FALSE';
         }
@@ -149,7 +141,6 @@ class EmailSeriesMemberController {
             'champion_id' => $champion_id,
             'email_id' => $email_id
         ];
-        writeLogAppend('queTipForMember-144', $data);
         $this->emailQueModel->create($data);
         return 'TRUE'; 
     }

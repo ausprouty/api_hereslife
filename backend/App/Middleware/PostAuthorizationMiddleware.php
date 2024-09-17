@@ -42,7 +42,7 @@ class PostAuthorizationMiddleware {
         // Check if the request method is POST
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Log the raw POST data
-            writeLog('PostAuthorizationMiddleware-7', $_POST);
+        
             
             // Sanitize the input data using SanitizeInputService
             $sanitizeInputService = new SanitizeInputService();

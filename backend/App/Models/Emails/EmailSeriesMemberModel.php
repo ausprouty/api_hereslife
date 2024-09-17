@@ -75,7 +75,6 @@ class EmailSeriesMemberModel {
     }
 
     public function update($id, $data) {
-        writeLogAppend('EmailSeriesMemeberModel-78', $data);
         $fields = [];
         $params = [':id' => $id];
         // Dynamically build the query
@@ -87,8 +86,6 @@ class EmailSeriesMemberModel {
         $query = "UPDATE hl_email_list_members 
                   SET " . implode(', ', $fields) . " 
                   WHERE id = :id";
-        writeLogAppend('EmailSeriesMemeberModel-90', $query);
-        writeLogAppend('EmailSeriesMemeberModel-91', $params);
         
         return $this->databaseService->executeUpdate($query, $params);
     }

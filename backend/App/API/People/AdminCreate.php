@@ -24,7 +24,7 @@ use App\Services\Database\DatabaseService;
  */
 
 // Log the input data for tracking purposes
-writeLog('AdminCreate-7', $postData);
+
 
 // Instantiate the DatabaseService with the 'standard' database
 $databaseService = new DatabaseService('standard');

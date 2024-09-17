@@ -159,7 +159,7 @@ class EmailModel {
         $int = (int)$number;
         $query = "SELECT subject, id
                   FROM hl_email_series
-                  WHERE series = 'blog'                 
+                  WHERE series = 'Blog'                 
                   ORDER BY id DESC
                   LIMIT $int";
         // Directly include the limit value

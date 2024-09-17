@@ -4,7 +4,7 @@
  
  <p> <a href="/mytinymce/secure">My RemoteTinyMce Secure</a></p>
 
-  <p>try <a href="/email/series/any/1">Create Emails</a></p>
+  <p><a href="/email/series/any/1">Create Emails for series</a></p>
 
   <p> <a href="/email/direct">Email Direct</a></p>
   <p> <a href="/email/que/group">Email Que</a></p>

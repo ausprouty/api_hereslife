@@ -21,6 +21,7 @@ get($path . 'import/email/nodes', 'App/API/Import/SetupEmailNodeMigration.php');
 get($path . 'import/email/node/content', 'App/API/Import/ImportEmailNodes.php');
 get($path . 'import/list/members', 'App/API/Import/ImportEmailSeriesMembers.php');
 get($path . 'import/materials', 'App/API/Import/ImportMaterials.php');
+get($path . 'import/blog', 'App/API/Import/ImportBlog.php');
 get($path . 'import/downloads', 'App/API/Import/ImportDownloads.php');
 get($path . 'spirit/text/$language', 'App/API/Materials/getSpiritText.php');
 get($path . 'spirit/titles', 'App/API/Materials/getSpiritTitles.php');
