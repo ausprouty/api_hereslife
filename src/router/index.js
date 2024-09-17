@@ -1,29 +1,28 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { useAuthStore } from '@/stores/AuthStore'; // Import your Pinia store
-
-import SeriesEditor from '@/views/SeriesEditor.vue'; // Adjust the path as necessary
-import HelloWorld from '@/views/HelloWorld.vue'; // Adjust the path as necessary
+import Dashboard from '@/views/Dashboard.vue'; // Adjust the path as necessary
 import EmailSendDirect from '@/views/EmailSendDirect.vue'; 
-import EmailSeriesTitles from '@/views/EmailSeriesTitles.vue';
 import EmailSendQue from '@/views/EmailSendQue.vue';
+import EmailSeriesEditor from '@/views/EmailSeriesEditor.vue'; // Adjust the path as necessary
+import EmailSeriesTitles from '@/views/EmailSeriesTitles.vue';
 import LoginUser from '@/views/LoginUser.vue';
 
 const routes = [
   
   {
-    path: '/hello-world',
-    name: 'HelloWorld',
-    component: HelloWorld,
+    path: '/dashboard',
+    name: 'Dashboard',
+    component: Dashboard,
   },
   {
     path: '/email/series/titles',
-    name: 'SeriesTitles',
+    name: 'EmailSeriesTitles',
     component: EmailSeriesTitles,
   },
   {
     path: '/email/series/:series?/:sequence?',
-    name: 'SeriesEditor',
-    component: SeriesEditor,
+    name: 'EmailSeriesEditor',
+    component: EmailSeriesEditor,
   },
   
   {

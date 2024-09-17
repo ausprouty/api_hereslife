@@ -78,9 +78,9 @@ export default {
         const response = await authStore.login(loginData.value);
         console.log (response)
         if (response == 'Success') {
-          console.log ('reditecting')
+          console.log ('redirecting')
           // Redirect to the dashboard after successful login
-          router.push('/email/series/any/1');
+          router.push('/dashboard');
         }
       } catch (error) {
         console.error('Login failed:', error);

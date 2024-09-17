@@ -35,7 +35,7 @@ post($path . 'email/images/upload/tinymce', 'App/API/Emails/UploadImagesTinyMce.
 post($path . 'email/images/upload/tinymce2', 'App/API/Emails/UploadImagesTinyMce2.php');
 post($path . 'email/que/emails', 'App/API/Emails/QueEmails.php',$postData);
 post($path . 'email/send', 'App/API/Emails/SendEmail.php',$postData);
-post($path . 'email/series', 'App/API/Emails/SeriesEmailTextUpdate.php',$postData);
+post($path . 'email/series/text/update', 'App/API/Emails/SeriesEmailTextUpdate.php',$postData);
 post($path . 'materials/download', 'App/API/Materials/DownloadMaterialsUpdateUser.php', $postData);
 
 if (ENVIRONMENT == 'local'){

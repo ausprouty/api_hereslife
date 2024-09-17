@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import axiosService from '@/services/axiosService';
+import router from '@/router';
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
@@ -11,7 +12,6 @@ export const useAuthStore = defineStore('auth', {
   getters: {
     isAuthenticated: (state) => state.user !== null && state.user !== undefined,
   },
-  
 
   actions: {
     async checkIfAdministratorExists() {
@@ -43,14 +43,16 @@ export const useAuthStore = defineStore('auth', {
 
     async login(credentials) {
       try {
+        console.log(credentials);
         const { data } = await axiosService.post('admin/login', credentials, { skipUserId: true });
         if (data.success === 'FALSE') {
           alert('Invalid username or password');
           return 'Invalid username or password';
         }
-        console.log('Login success:', data);
         this.token = data.token;
         this.user = data.user;
+        
+        router.push('/dashboard'); // Redirect after successful login
         return 'Success';
       } catch (error) {
         console.error('Login failed', error);
@@ -60,18 +62,32 @@ export const useAuthStore = defineStore('auth', {
     logout() {
       this.token = null;
       this.user = null;
+      router.push('/login'); // Redirect to login after logout
     },
 
     async checkAuth() {
-      const token = sessionStorage.getItem('auth'); // Assuming the full state is persisted
+      const token = this.token;
       if (token) {
         try {
-          const { data } = await axiosService.get('user/authentication');
-          this.user = data.user;
-          this.token = token;
+          const credentials = {
+            token,
+            user: this.user,
+          };
+          const { data } = await axiosService.post('admin/checkAuth', credentials);
+          if (data.success === 'FALSE') {
+            this.logout();
+            router.push('/login');
+          } else {
+            console.log('Login success:', data);
+            this.token = data.token;
+            this.user = data.user;
+          }
         } catch (error) {
-          this.logout();
+          console.error('Auth check failed', error);
+          this.logout(); // Log out and redirect if check fails
         }
+      } else {
+        router.push('/login'); // Redirect to login if no token found
       }
     },
   },
@@ -81,7 +97,8 @@ export const useAuthStore = defineStore('auth', {
     strategies: [
       {
         key: 'auth',
-        storage: sessionStorage,
+        storage: localStorage,  // Pinia automatically syncs with localStorage
+        paths: ['token', 'user'], // Only persist token and user
       },
     ],
   },

@@ -1,17 +1,5 @@
-// src/services/axiosService.js
-
-/*
-Example request without userId
-axiosInstance.get('/login', { skipUserId: true });
-
-Example request with userId automatically appended
-axiosInstance.get('/profile');
-
-This will automatically append the userId to the URL, like this:
-?u=12345
-*/
-
 import axios from 'axios';
+import { useAuthStore } from '@/stores/auth'; // Import the auth store
 
 const apiUrl = import.meta.env.VITE_APP_API_URL;
 
@@ -20,15 +8,19 @@ const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.request.use(config => {
+  const authStore = useAuthStore();  // Access the Pinia store
+
   const siteToken = import.meta.env.VITE_APP_HL_API_KEY;
-  const userToken = sessionStorage.getItem('userToken');
-  const userId = sessionStorage.getItem('userId');
+  const userToken = authStore.token; // Get token from Pinia store
+  const userId = authStore.user ? authStore.user.id : null; // Get user ID from Pinia store
   
   if (siteToken) {
+    console.log ('siteToken', siteToken);
     config.headers['Authorization'] = `Bearer ${siteToken}`;
   }
   
   if (userToken) {
+    console.log ('userToken', userToken);
     config.headers['User-Authorization'] = `Bearer ${userToken}`;
   }
   // Append userId as a query parameter `u` if:
@@ -36,6 +28,7 @@ axiosInstance.interceptors.request.use(config => {
   // 2. The request config does not have a `skipUserId` flag set to true.
   if (userId && !config.skipUserId) {
     config.params = config.params || {};
+    config.apiKey = siteToken;
     config.params['u'] = userId;
   }
 

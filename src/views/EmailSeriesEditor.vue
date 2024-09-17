@@ -174,7 +174,7 @@ const saveEmail = async () => {
       action: isEdit.value ? 'update' : 'create',
       data: email.value,
     };
-    await axiosService.post('email/series', formData);
+    await axiosService.post('email/series/text/update', formData);
 
     email.value = {
       subject: '',
