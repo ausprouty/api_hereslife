@@ -12,7 +12,7 @@ use App\Utilities\RequestValidator;
 
 // Step 1: Fetch post data (assuming you're getting this from a frontend request)
 // In a real-world scenario, you'd likely use a request handler or framework to get the POST data.
-$postData = $_POST;  // This assumes your data is sent via POST
+
 
 // Step 2: Validate request and authorization
 // Use RequestValidator to validate admin authorization for this action.

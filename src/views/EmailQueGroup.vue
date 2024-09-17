@@ -88,7 +88,7 @@
         }
       };
       try {
-        const response = await axios.post(apiUrl + 'email/que/emails', payload);
+        const response = await axios.post(apiUrl + 'email/que/group', payload);
         alert (response.data.message)
       } catch (error) {
         alert('Failed to send letter');

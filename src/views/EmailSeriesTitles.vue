@@ -21,6 +21,7 @@
           </tr>
         </tbody>
       </table>
+      <button @click="addEmailToSeries(selectedSeries)">Add Email to Series</button>
   
       <div v-if="errorMessage" class="error">{{ errorMessage }}</div>
     </div>
@@ -69,9 +70,19 @@
       };
   
       // Function to navigate to email details
-    const goToEmailDetails = (sequence, series) => {
-      router.push(`/email/series/${series}/${sequence}`); // Navigate using the router
-    };
+      const goToEmailDetails = (sequence, series) => {
+        router.push(`/email/series/${series}/${sequence}`); // Navigate using the router
+      };
+      
+
+      const addEmailToSeries = (series) => {
+        // Check if emailSeries exists and has a length, otherwise default to 0
+        const nextEmail = emailSeries && Array.isArray(emailSeries) ? emailSeries.length + 1 : 1;
+
+        // Navigate using the router
+        router.push(`/email/series/${series}/${nextEmail}`);
+      };
+
   
       return {
         selectedSeries,
@@ -79,7 +90,8 @@
         seriesOptions,
         fetchSeriesData,
         errorMessage,
-        goToEmailDetails
+        goToEmailDetails,
+        addEmailToSeries
       };
     }
   };

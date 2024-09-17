@@ -76,21 +76,41 @@ class EmailModel {
 
         // Debugging: print the data being passed
         writeLogAppend('update', $data); // This will print the actual data being passed
+    
+        // Define the valid column names for the hl_email_series table
+        $validColumns = [
+            'subject', 
+            'body', 
+            'plain_text_only', 
+            'headers', 
+            'template', 
+            'series', 
+            'sequence', 
+            'params'
+        ];
+    
         // Initialize fields array and params for the query
         $fields = [];
         $params = [':id' => $id];
-        
-        // Dynamically build the SET clause based on the provided data
+    
+        // Filter the data to only include valid columns
         foreach ($data as $key => $value) {
-            $fields[] = "$key = :$key";
-            $params[":$key"] = $value;
+            if (in_array($key, $validColumns)) {  // Only include valid fields
+                $fields[] = "$key = :$key";
+                $params[":$key"] = $value;
+            }
         }
-        
+    
+        // Check if there are any valid fields to update
+        if (empty($fields)) {
+            throw new Exception('No valid fields to update');
+        }
+    
         // Construct the query using the dynamically built fields
         $query = "UPDATE hl_email_series 
                   SET " . implode(', ', $fields) . " 
                   WHERE id = :id";
-        
+    
         return $this->databaseService->executeUpdate($query, $params);
     }
 

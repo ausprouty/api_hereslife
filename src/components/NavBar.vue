@@ -27,7 +27,7 @@
           items: [
           { title: 'Email Series Titles', path: '/email/series/titles' },
             { title: 'Series Editor', path: '/email/series/any/1' },
-            { title: 'Send Que', path: '/email/que' },
+            { title: 'Send Que Group', path: '/email/que/group' },
             { title: 'Send Direct', path: '/email/direct/' },
             
             { title: 'Email 5', path: '/emails/5' }

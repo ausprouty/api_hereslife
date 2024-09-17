@@ -152,9 +152,11 @@ const loadOrCreateEmail = async () => {
       email.value = { ...data.data };
       isEdit.value = true;
     } else {
+      var newSequence = sequence + 1
       email.value = {
         subject: '',
-        body: ''
+        body: '',
+        sequence: newSequence,
       };
       isEdit.value = false;
     }

@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import { useAuthStore } from '@/stores/AuthStore'; // Import your Pinia store
 import Dashboard from '@/views/Dashboard.vue'; // Adjust the path as necessary
 import EmailSendDirect from '@/views/EmailSendDirect.vue'; 
-import EmailSendQue from '@/views/EmailSendQue.vue';
+import EmailQueGroup from '@/views/EmailQueGroup.vue';
 import EmailSeriesEditor from '@/views/EmailSeriesEditor.vue'; // Adjust the path as necessary
 import EmailSeriesTitles from '@/views/EmailSeriesTitles.vue';
 import LoginUser from '@/views/LoginUser.vue';
@@ -31,9 +31,9 @@ const routes = [
     component: EmailSendDirect,
   },
   {
-    path: '/email/que',
-    name: 'EmailSendQue',
-    component: EmailSendQue,
+    path: '/email/group/que',
+    name: 'EmailQueGroup',
+    component: EmailQueGroup,
   },
   {
     path: '/',
