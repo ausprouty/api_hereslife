@@ -5,7 +5,7 @@ use App\Services\Emails\Smtp2GoMailerService;
 
 // Instantiate the necessary services
 $databaseService = new DatabaseService();
-$mailer = new Smtp2GoMailerService('bob@hereslife.com', 'Bob Prouty', STMP_API_KEY);
+$mailer = new Smtp2GoMailerService(DEFAULT_EMAIL_ADDRESS, DEFAULT_EMAIL_SENDER);
 
 // Instantiate the controller and process the queue
 $queueController = new EmailQueueController($databaseService, $mailer);

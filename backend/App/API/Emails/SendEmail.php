@@ -28,7 +28,7 @@ if (!isset($postData['bcc'])) {
 writeLogDebug("SendEmail-8", $postData);
 
 // Instantiate the Smtp2GoMailerService with sender details and API key
-$mailer = new Smtp2GoMailerService('bob@hereslife.com', 'Bob Prouty', STMP_API_KEY);
+$mailer = new Smtp2GoMailerService(DEFAULT_EMAIL_ADDRESS, DEFAULT_EMAIL_SENDER);
 
 // Send the email using the Smtp2GoMailerService
 $email_response = $mailer->sendEmail(
