@@ -136,7 +136,6 @@ class EmailSeriesMemberModel extends BaseModel{
         $results = $this->databaseService->executeQuery($query);
         return $results->fetchAll(PDO::FETCH_ASSOC);
     }
-
     public function findNewRequestsForTips() {
         $query = "SELECT id, list_id, list_name, champion_id, subscribed_date, last_tip_sent, last_tip_sent_date, finished_all_tips, unsubscribed_date
                   FROM hl_email_list_members
@@ -148,13 +147,23 @@ class EmailSeriesMemberModel extends BaseModel{
         return $results->fetchAll(PDO::FETCH_ASSOC);
     }
     public function findNextRequestsForTips() {
+        // Define the variable
+        $daysBetweenTipEmails = DAYS_BETWEEN_TIP_EMAILS; // Assuming this constant is defined somewhere
+
+        // Update query to use a placeholder for the interval
         $query = "SELECT id, list_id, list_name, champion_id, subscribed_date, last_tip_sent, last_tip_sent_date, finished_all_tips, unsubscribed_date
-                  FROM hl_email_list_members
-                  WHERE unsubscribed_date IS NULL
-                  AND last_tip_sent_date <= NOW() - INTERVAL 7 DAY
-                  AND finished_all_tips IS NULL";
-        
-        $results = $this->databaseService->executeQuery($query);
+                FROM hl_email_list_members
+                WHERE unsubscribed_date IS NULL
+                AND last_tip_sent_date <= NOW() - INTERVAL :days DAY
+                AND finished_all_tips IS NULL";
+
+        // Set up the params array in your preferred format
+        $params = [
+            ':days' => $daysBetweenTipEmails
+        ];
+        // Execute the query with the parameters
+        $results = $this->databaseService->executeQuery($query, $params);
+        // Fetch and return the results
         return $results->fetchAll(PDO::FETCH_ASSOC);
     }
     

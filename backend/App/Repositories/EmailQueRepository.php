@@ -8,7 +8,6 @@ use Exception;
 class EmailQueueRepository extends BaseRepository
 {
     
-
     /**
      * Queue an email by inserting it into the database.
      *

@@ -47,7 +47,7 @@
         { name: 'DBSleadership', public_name: 'DBS Leadership' },
         { name: 'Followup', public_name: 'Followup' },
         { name: 'MyFriends', public_name: 'MyFriends' },
-        { name: 'Tracts', public_name: 'Tracts' }
+        { name: 'Tracts', public_name: 'Tracts' },
         { name: 'Blog', public_name: 'Blog' }
       ];
   
@@ -75,16 +75,14 @@
         router.push(`/email/series/${series}/${sequence}`); // Navigate using the router
       };
       
-
       const addEmailToSeries = (series) => {
-        // Check if emailSeries exists and has a length, otherwise default to 0
-        const nextEmail = emailSeries && Array.isArray(emailSeries) ? emailSeries.length + 1 : 1;
+        // Check if emailSeries.value exists and has a length, otherwise default to 0
+        const nextEmail = emailSeries.value && Array.isArray(emailSeries.value) ? emailSeries.value.length + 1 : 1;
 
         // Navigate using the router
         router.push(`/email/series/${series}/${nextEmail}`);
       };
 
-  
       return {
         selectedSeries,
         emailSeries,

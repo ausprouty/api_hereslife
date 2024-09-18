@@ -2,9 +2,11 @@
 
 namespace App\Models\Materials;
 
+use App\Models\BaseModel;
+
 use PDO;
 
-class SpiritModel {
+class SpiritModel extends BaseModel {
     private $id;
     private $name;
     private $webpage;

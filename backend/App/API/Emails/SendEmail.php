@@ -1,6 +1,6 @@
 <?php
 
-use App\Services\Emails\EmailServices\Smtp2go\Smtp2GoMailerService;
+use App\Services\Emails\Smtp2GoMailerService;
 use App\Utilities\RequestValidator;
 
 /**

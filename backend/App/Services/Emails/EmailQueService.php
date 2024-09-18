@@ -12,7 +12,7 @@ class EmailQueueService {
     
     private $dayInSeconds;
     private $queSent;
-    private $queSentFile = APP_FILEDIR .'Storage/Timestamps/QueSent.txt';
+    private $queSentFile = APP_FILEDIR .'Storage/Timestamps/EmailQueSent.txt';
     private $newTipsSent;
     private $newTipsSentFile = APP_FILEDIR .'Storage/Timestamps/NewTipsSent.txt';
 
@@ -69,8 +69,8 @@ class EmailQueueService {
     public function processQueue() {
         date_default_timezone_set('UTC');
         
-        // Check if 14 minutes have passed since the last queue was processed
-        if ((time() - $this->queSent) > (60 * 14)) {
+        // Check if MINUTES_BETWEEN_QUE_CALLS have passed since the last queue was processed
+        if ((time() - $this->queSent) > (60 * MINUTES_BETWEEN_QUE_CALLS)) {
             $yesterday = time() - $this->dayInSeconds;
 
             // Check if a full day has passed since the last new tips were sent
@@ -79,7 +79,6 @@ class EmailQueueService {
                 $this->setNewTipsSentTimestamp(time()); // Update the new tips sent timestamp
                 return; // Exit early as sending email series members' queue takes a long time
             }
-
             // Send material tips and other emails
             $this->emailRequestInitialMaterialTips();
             $this->sendEmails();
