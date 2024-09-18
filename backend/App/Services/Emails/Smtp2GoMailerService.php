@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Services\Emails;
+
 use SMTP2GO\ApiClient;
 use SMTP2GO\Service\Mail\Send as MailSend;
 use SMTP2GO\Types\Mail\Address;
@@ -39,8 +41,8 @@ class Smtp2GoMailerService
             new AddressCollection([
                 new Address($postData['recipient']['email'], $postData['recipient']['name']),
             ]),
-            $postData['recipient']['subject'],
-            $postData['recipient']['body'],
+            $postData['subject'],
+            $postData['body'],
         );
         if ($postData['bcc']){
             $sendService->addAddress('bcc', new Address($postData['bcc']));
@@ -48,6 +50,7 @@ class Smtp2GoMailerService
         $apiClient = new ApiClient(STMP_API_KEY);
         $success = $apiClient->consume($sendService);
         $responseBody = $apiClient->getResponseBody();
+        writeLogDebug("Smtp2GoMailerService-51", $responseBody);
         return $responseBody;
     }
 }

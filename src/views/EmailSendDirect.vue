@@ -52,7 +52,7 @@
 <script setup>
 import { ref, watch, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
-import axios from 'axios';
+import axiosService from '@/services/axiosService';
 import Editor from '@tinymce/tinymce-vue';
 
 const hlApiKey = import.meta.env.VITE_APP_HL_API_KEY; // Use apiKey consistently
@@ -60,7 +60,7 @@ const tinyMCEApiKey = import.meta.env.VITE_APP_TINYCME_API_KEY
 const route = useRoute();
 const apiUrl = import.meta.env.VITE_APP_API_URL;
 console.log ('apiUrl', apiUrl);
-const apiSendEmail = `${apiUrl}email/send`;
+
 const imageUploadUrl = `${apiUrl}email/images/upload/tinymce`;
 console.log ('imageUploadUrl', imageUploadUrl);
 
@@ -129,9 +129,9 @@ const saveEmail = async () => {
       action: 'create',
       data: email.value,
     };
-    data.data.apiKey = apiKey;
-    const response = await axios.post(apiSendEmail, data);
-    console.log('Email saved successfully:', response);
+    console.log(data);
+    const response = await axiosService.post('email/send/direct', data);
+    console.log('Email sent successfully:', response);
     email.value = {
       address: '',
       subject: '',
@@ -142,7 +142,7 @@ const saveEmail = async () => {
     isEdit.value = false;
   } catch (error) {
     console.error('Failed to save email:', error);
-    email.value.errorMessage = 'Failed to save email. Please try again.';
+    email.value.errorMessage = 'Failed to send email. Please adjust program.';
   } finally {
     loading.value = false;
   }

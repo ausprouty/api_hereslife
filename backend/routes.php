@@ -35,7 +35,7 @@ post($path . 'email/images/upload', 'App/API/Emails/UploadImages.php');
 post($path . 'email/images/upload/tinymce', 'App/API/Emails/UploadImagesTinyMce.php');
 post($path . 'email/images/upload/tinymce2', 'App/API/Emails/UploadImagesTinyMce2.php');
 post($path . 'email/que/group', 'App/API/Emails/QueEmailForGroup.php',$postData);
-post($path . 'email/send', 'App/API/Emails/SendEmail.php',$postData);
+post($path . 'email/send/direct', 'App/API/Emails/SendEmail.php',$postData);
 post($path . 'email/series/text/update', 'App/API/Emails/SeriesEmailTextUpdate.php',$postData);
 post($path . 'materials/download', 'App/API/Materials/DownloadMaterialsUpdateUser.php', $postData);
 
