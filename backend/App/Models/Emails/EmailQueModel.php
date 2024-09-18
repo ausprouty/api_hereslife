@@ -2,7 +2,6 @@
 
 namespace App\Models\Emails;
 
-use App\Services\Database\DatabaseService;
 use App\Models\BaseModel;
 use Exception;
 use \PDO;
@@ -28,16 +27,7 @@ class EmailQueModel extends BaseModel {
     private $template;
     private $params;
     
-    private $databaseService;
 
-    /**
-     * Constructor that initializes the model and injects DatabaseService.
-     *
-     * @param DatabaseService $databaseService
-     */
-    public function __construct(DatabaseService $databaseService) {
-        $this->databaseService = $databaseService;
-    }
 
     /**
      * Set values for the model's properties.

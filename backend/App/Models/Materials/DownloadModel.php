@@ -2,7 +2,6 @@
 
 namespace App\Models\Materials;
 
-use App\Services\Database\DatabaseService;
 use App\Models\BaseModel;   
 
 /**
@@ -13,7 +12,7 @@ use App\Models\BaseModel;
  */
 class DownloadModel extends BaseModel {
 
-    private $databaseService;
+   
 
     public $id;
     public $champion_id;
@@ -26,14 +25,7 @@ class DownloadModel extends BaseModel {
     public $tip;
     public $tip_detail;
 
-    /**
-     * Constructor with Dependency Injection for DatabaseService.
-     *
-     * @param DatabaseService $databaseService Dependency injection for database operations.
-     */
-    public function __construct(DatabaseService $databaseService) {
-        $this->databaseService = $databaseService;
-    }
+   
 
     /**
      * Set values for the DownloadModel, applying default values if necessary.

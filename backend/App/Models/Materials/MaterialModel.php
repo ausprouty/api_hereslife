@@ -1,13 +1,11 @@
 <?php
 namespace App\Models\Materials;
 
-use App\Services\Database\DatabaseService;
 use App\Models\BaseModel;
 use PDO;
 
 class MaterialModel extends BaseModel {
 
-    private $databaseService;
     protected $id;
     protected $material_name;
     protected $material_type;
@@ -15,9 +13,7 @@ class MaterialModel extends BaseModel {
     protected $updated_date;
     protected $status;
 
-    public function __construct($database = 'standard') {
-        $this->databaseService = new DatabaseService($database);
-    }
+ 
     
     // Specify the valid columns for the materials table
     protected function getValidColumns()

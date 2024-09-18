@@ -3,7 +3,7 @@
 namespace App\Models\People;
 
 use App\Models\BaseModel;
-use App\Services\Database\DatabaseService;
+
 
 class EmailSeriesMemberModel extends BaseModel {
     private $id;
@@ -12,13 +12,6 @@ class EmailSeriesMemberModel extends BaseModel {
     private $sequence;
     private $sent;
 
-    private $databaseService;
-
-    // Inject the database service via the constructor
-    public function __construct(DatabaseService $databaseService) {
-        $this->databaseService = $databaseService;
-        
-    }
 
     // Set values for the model, applying default values
     public function setValues(array $data) {

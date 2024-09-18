@@ -2,7 +2,6 @@
 
 namespace App\Models\Materials;
 
-use App\Services\Database\DatabaseService;
 use PDO;
 
 class SpiritModel {
@@ -14,11 +13,7 @@ class SpiritModel {
     private $valid;
     private $promo;
 
-    private $databaseService;
-
-    public function __construct(DatabaseService $databaseService) {
-        $this->databaseService = $databaseService;
-    }
+   
         // Set values with defaults for missing parameters
     public function setValues(array $data) {
         $defaults = [

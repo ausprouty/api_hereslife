@@ -2,8 +2,6 @@
 
 namespace App\Models\People;
 
-use App\Services\Database\DatabaseService;
-
 class EmailSeriesMemberModel {
     private $id;
     private $tid;
@@ -11,12 +9,6 @@ class EmailSeriesMemberModel {
     private $sequence;
     private $sent;
 
-    private $databaseService;
-
-    // Constructor accepts only the DatabaseService for Dependency Injection
-    public function __construct(DatabaseService $databaseService) {
-        $this->databaseService = $databaseService;
-    }
 
     // Set values for the model, applying default values
     public function setValues(array $data) {

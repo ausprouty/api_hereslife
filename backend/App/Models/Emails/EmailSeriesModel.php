@@ -2,24 +2,11 @@
 
 namespace App\Models\Emails;
 
-use App\Services\Database\DatabaseService;
 
-class EmailSeriesModel
+
+class EmailSeriesModel extends BaseModel
 {
-    /**
-     * @var DatabaseService
-     */
-    private $db;
-
-    /**
-     * EmailSeriesModel constructor.
-     *
-     * @param DatabaseService $db
-     */
-    public function __construct(DatabaseService $db)
-    {
-        $this->db = $db;
-    }
+    
 
     /**
      * Fetch emails by series name from the database.
@@ -38,6 +25,6 @@ class EmailSeriesModel
         ";
 
         // Step 2: Execute the query and fetch the results
-        return $this->db->fetchAll($query, ['series' => $series]);
+        return $this->databaseService->fetchAll($query, ['series' => $series]);
     }
 }

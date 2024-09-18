@@ -3,19 +3,11 @@
 namespace App\Repositories;
 
 use App\Models\Emails\EmailQueModel;
-use App\Services\Database\DatabaseService;
 use Exception;
 
 class EmailQueueRepository extends BaseRepository
 {
-    /**
-     * Constructor that injects the DatabaseService.
-     *
-     * @param DatabaseService $databaseService
-     */
-    public function __construct(DatabaseService $databaseService) {
-        parent::__construct($databaseService); // Call the parent constructor
-    }
+    
 
     /**
      * Queue an email by inserting it into the database.

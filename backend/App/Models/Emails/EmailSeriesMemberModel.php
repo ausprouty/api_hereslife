@@ -1,20 +1,13 @@
 <?php
 namespace App\Models\Emails;
 
-use App\Services\Database\DatabaseService;
 use App\Services\Debugging;
 use App\Models\BaseModel;
 use PDO;
 
 class EmailSeriesMemberModel extends BaseModel{
 
-    private $databaseService;
-
-    // Inject DatabaseService via the constructor
-    public function __construct(DatabaseService $databaseService)
-    {
-        $this->databaseService = $databaseService;
-    }
+  
 
     // This method sets the object's values and applies default values
     public function setValues($data) {

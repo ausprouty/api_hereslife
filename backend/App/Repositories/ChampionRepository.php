@@ -2,18 +2,12 @@
 namespace App\Repositories;
 
 use App\Models\People\ChampionModel;
-use App\Services\Database\DatabaseService;
+
 use Exception;
 
 class ChampionRepository extends BaseRepository
 {
-    private $databaseService;
-
-    // Inject DatabaseService into the constructor
-    public function __construct(DatabaseService $databaseService)
-    {
-        $this->databaseService = $databaseService;
-    }
+   
 
     // Find a champion by email
     public function findByEmail(string $email): ?ChampionModel
