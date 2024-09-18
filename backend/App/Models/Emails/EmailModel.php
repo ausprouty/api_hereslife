@@ -3,9 +3,10 @@ namespace App\Models\Emails;
 
 use App\Services\Database\DatabaseService;
 use App\Services\Debugging;
+use App\Models\BaseModel;
 use PDO;
 
-class EmailModel {
+class EmailModel extends BaseModel{
 
     private $databaseService;
 
@@ -70,15 +71,10 @@ class EmailModel {
         // Insert the data into the database
         return $this->insert();
     }
-
-
-    public function update($id, $data) {
-
-        // Debugging: print the data being passed
-        writeLogAppend('update', $data); // This will print the actual data being passed
-    
-        // Define the valid column names for the hl_email_series table
-        $validColumns = [
+    // Specify the valid columns for the email  model //
+    // used by BaseModel update method
+    protected function getValidColumns() {
+        return [
             'subject', 
             'body', 
             'plain_text_only', 
@@ -88,32 +84,11 @@ class EmailModel {
             'sequence', 
             'params'
         ];
-    
-        // Initialize fields array and params for the query
-        $fields = [];
-        $params = [':id' => $id];
-    
-        // Filter the data to only include valid columns
-        foreach ($data as $key => $value) {
-            if (in_array($key, $validColumns)) {  // Only include valid fields
-                $fields[] = "$key = :$key";
-                $params[":$key"] = $value;
-            }
-        }
-    
-        // Check if there are any valid fields to update
-        if (empty($fields)) {
-            throw new Exception('No valid fields to update');
-        }
-    
-        // Construct the query using the dynamically built fields
-        $query = "UPDATE hl_email_series 
-                  SET " . implode(', ', $fields) . " 
-                  WHERE id = :id";
-    
-        return $this->databaseService->executeUpdate($query, $params);
     }
-
+    // Define the table name for this model
+    protected function getTableName() {
+        return 'hl_email';
+    }
 
     public function delete($id) {
         $query = "DELETE FROM hl_email_series WHERE id = :id";

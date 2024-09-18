@@ -2,7 +2,10 @@
 
 namespace App\Models\People;
 
-class EmailSeriesMemberModel {
+use App\Models\BaseModel;
+use App\Services\Database\DatabaseService;
+
+class EmailSeriesMemberModel extends BaseModel {
     private $id;
     private $tid;
     private $cid;
@@ -54,24 +57,21 @@ class EmailSeriesMemberModel {
         $this->id = $this->databaseService->getLastInsertId();
     }
 
-    // Update an existing record in the database
-    public function update() {
-        $query = "UPDATE hl_email_series_members 
-                  SET tid = :tid, 
-                      cid = :cid, 
-                      sequence = :sequence, 
-                      sent = :sent 
-                  WHERE id = :id";
-
-        $params = [
-            ':id' => $this->id,
-            ':tid' => $this->tid,
-            ':cid' => $this->cid,
-            ':sequence' => $this->sequence,
-            ':sent' => $this->sent,
+    // Define the valid columns for this table
+    protected function getValidColumns()
+    {
+        return [
+            'tid', 
+            'cid', 
+            'sequence', 
+            'sent'
         ];
+    }
 
-        $this->databaseService->executeUpdate($query, $params);
+    // Define the table name for this model
+    protected function getTableName()
+    {
+        return 'hl_email_series_members';
     }
 
     // Create a new record or update if it exists

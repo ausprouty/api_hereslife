@@ -5,7 +5,7 @@ use App\Models\People\ChampionModel;
 use App\Services\Database\DatabaseService;
 use Exception;
 
-class ChampionRepository
+class ChampionRepository extends BaseRepository
 {
     private $databaseService;
 
@@ -18,7 +18,7 @@ class ChampionRepository
     // Find a champion by email
     public function findByEmail(string $email): ?ChampionModel
     {
-        $query = "SELECT * FROM hl_champions WHERE email = :email LIMIT 1";
+        $query = "SELECT * FROM " . $this->getTableName() . " WHERE email = :email LIMIT 1";
         $params = [':email' => $email];
 
         try {
@@ -26,7 +26,7 @@ class ChampionRepository
             $data = $results->fetch(\PDO::FETCH_ASSOC);
 
             if ($data) {
-                return new ChampionModel($data);
+                return new ChampionModel($data); // Instantiate ChampionModel with the fetched data
             }
 
             return null;
@@ -39,7 +39,7 @@ class ChampionRepository
     // Find a champion by cid
     public function findByCid(int $cid): ?ChampionModel
     {
-        $query = "SELECT * FROM hl_champions WHERE cid = :cid LIMIT 1";
+        $query = "SELECT * FROM " . $this->getTableName() . " WHERE cid = :cid LIMIT 1";
         $params = [':cid' => $cid];
 
         try {
@@ -47,7 +47,7 @@ class ChampionRepository
             $data = $results->fetch(\PDO::FETCH_ASSOC);
 
             if ($data) {
-                return new ChampionModel($data);
+                return new ChampionModel($data); // Instantiate ChampionModel with the fetched data
             }
 
             return null;
@@ -70,10 +70,12 @@ class ChampionRepository
     // Insert a new champion
     private function insert(ChampionModel $champion)
     {
-        $query = "INSERT INTO hl_champions 
-                  (first_name, surname, title, organization, address, suburb, state, postcode, country, phone, sms, email, gender, double_opt_in_date, first_email_date, last_open_date, consider_dropping_date, first_download_date, last_download_date, last_email_date)
+        $query = "INSERT INTO " . $this->getTableName() . " 
+                  (first_name, surname, title, organization, address, suburb, state, postcode, country, phone, sms, email, gender, 
+                  double_opt_in_date, first_email_date, last_open_date, consider_dropping_date, first_download_date, last_download_date, last_email_date)
                   VALUES 
-                  (:first_name, :surname, :title, :organization, :address, :suburb, :state, :postcode, :country, :phone, :sms, :email, :gender, :double_opt_in_date, :first_email_date, :last_open_date, :consider_dropping_date, :first_download_date, :last_download_date, :last_email_date)";
+                  (:first_name, :surname, :title, :organization, :address, :suburb, :state, :postcode, :country, :phone, :sms, :email, :gender, 
+                  :double_opt_in_date, :first_email_date, :last_open_date, :consider_dropping_date, :first_download_date, :last_download_date, :last_email_date)";
 
         $params = $this->getParams($champion);
 
@@ -85,27 +87,41 @@ class ChampionRepository
         }
     }
 
-    // Update an existing champion
-    private function update(ChampionModel $champion)
+    
+    // Define the valid columns for this repository
+    protected function getValidColumns()
     {
-        $query = "UPDATE hl_champions 
-                  SET first_name = :first_name, surname = :surname, title = :title, organization = :organization, 
-                      address = :address, suburb = :suburb, state = :state, postcode = :postcode, country = :country, 
-                      phone = :phone, sms = :sms, email = :email, gender = :gender, double_opt_in_date = :double_opt_in_date, 
-                      first_email_date = :first_email_date, last_open_date = :last_open_date, consider_dropping_date = :consider_dropping_date, 
-                      first_download_date = :first_download_date, last_download_date = :last_download_date, last_email_date = :last_email_date 
-                  WHERE cid = :cid";
-
-        $params = $this->getParams($champion);
-        $params[':cid'] = $champion->getCid();
-
-        try {
-            $this->databaseService->executeUpdate($query, $params);
-        } catch (Exception $e) {
-            writeLogError('ChampionRepository-update', $e->getMessage());
-        }
+        return [
+            'first_name', 
+            'surname', 
+            'title', 
+            'organization', 
+            'address', 
+            'suburb', 
+            'state', 
+            'postcode', 
+            'country', 
+            'phone', 
+            'sms', 
+            'email', 
+            'gender', 
+            'double_opt_in_date', 
+            'first_email_date', 
+            'last_open_date', 
+            'consider_dropping_date', 
+            'first_download_date', 
+            'last_download_date', 
+            'last_email_date'
+        ];
     }
 
+    // Define the table name for this repository
+    protected function getTableName()
+    {
+        return 'hl_champions';
+    }
+    
+      
     // Helper method to get the parameter array from ChampionModel
     private function getParams(ChampionModel $champion): array
     {
@@ -131,5 +147,11 @@ class ChampionRepository
             ':last_download_date' => $champion->getLastDownloadDate(),
             ':last_email_date' => $champion->getLastEmailDate(),
         ];
+    }
+
+    // Define the table name for this model
+    protected function getTableName()
+    {
+        return 'hl_champions';
     }
 }

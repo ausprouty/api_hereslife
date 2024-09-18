@@ -3,6 +3,7 @@
 namespace App\Models\Emails;
 
 use App\Services\Database\DatabaseService;
+use App\Models\BaseModel;
 use Exception;
 use \PDO;
 
@@ -12,7 +13,7 @@ use \PDO;
  * This class represents an email queue item in the system, allowing emails to be scheduled and processed.
  * It provides methods for creating, reading, updating, and deleting email queue entries in the database.
  */
-class EmailQueModel {
+class EmailQueModel extends BaseModel {
     private $id;
     private $delay_until;
     private $email_from;
@@ -125,42 +126,30 @@ class EmailQueModel {
         return $this->databaseService->executeQuery($query, $params)->fetch(PDO::FETCH_ASSOC);
     }
 
-    /**
-     * Update an existing email queue entry in the database.
-     *
-     * @return bool True if the update was successful, false otherwise.
-     * @throws Exception if the query execution fails.
-     */
-    public function update($id, $data): bool {
-        if (!$id) {
-            throw new Exception("ID is required for updating the record.");
+        // Specify the valid columns for the email series for update
+        protected function getValidColumns()
+        {
+            return [
+                'delay_until', 
+                'email_from', 
+                'email_to', 
+                'email_id', 
+                'champion_id', 
+                'subject', 
+                'body', 
+                'plain_text_only', 
+                'headers', 
+                'plain_text_body', 
+                'template', 
+                'params'
+            ];
         }
     
-        // Initialize the fields array and params
-        $fields = [];
-        $params = [':id' => $id];
-    
-        // Dynamically build the SET clause based on the provided data
-        foreach ($data as $key => $value) {
-            $fields[] = "$key = :$key";
-            $params[":$key"] = $value;
+        // Define the table name for this model
+        protected function getTableName()
+        {
+            return 'hl_email_que';
         }
-    
-        // If no data fields were provided, throw an exception
-        if (empty($fields)) {
-            throw new Exception("No fields to update.");
-        }
-    
-        // Construct the query
-        $query = "UPDATE hl_email_que 
-                  SET " . implode(', ', $fields) . " 
-                  WHERE id = :id";
-    
-        // Execute the update query
-        return $this->databaseService->executeUpdate($query, $params);
-    }
-    
-
     /**
      * Delete an email queue entry from the database.
      *

@@ -26,14 +26,13 @@ class ChampionModel
     private $last_download_date;
     private $last_email_date;
 
-    // Constructor doesn't handle data, use setValues for that
+    // Constructor initializes object properties using provided data
     public function __construct(array $data = [])
     {
-        // Use setValues to initialize the object
         $this->setValues($data);
     }
 
-    // Set values for the object, applying default values
+    // Set values for the object, applying default values if needed
     public function setValues(array $data)
     {
         $defaults = [
@@ -71,7 +70,7 @@ class ChampionModel
         }
     }
 
-    // Getters and setters for each property
+    // Getters and Setters for each property
 
     public function getCid() { return $this->cid; }
     public function setCid($cid) { $this->cid = $cid; }

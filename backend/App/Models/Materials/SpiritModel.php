@@ -61,9 +61,24 @@ class SpiritModel {
         // Execute the query with the parameters
         return $this->databaseService->executeUpdate($query, $params);
     }
-    
-        
-    
+    // Specify the valid columns for the spirits table
+    protected function getValidColumns()
+    {
+        return [
+            'name', 
+            'webpage', 
+            'images', 
+            'hlId', 
+            'valid', 
+            'promo'
+        ];
+    }
+    // Define the table name for this model
+    protected function getTableName()
+    {
+        return 'hl_spirits';
+    }
+
     // Save method to decide between insert and update based on object state
     public function save() {
         if (isset($this->id)) {
@@ -72,41 +87,7 @@ class SpiritModel {
             return $this->insert();
         }
     }
-    /**
- * Update an existing spirit record in the database.
- *
- * @param int   $id   The ID of the record to update.
- * @param array $data The data to update.
- * @return bool Returns true if the update was successful.
- */
-    public function update($id, $data): bool {
-        if (!$id) {
-            throw new Exception("ID is required for updating the record.");
-        }
-
-        // Initialize the fields array and params
-        $fields = [];
-        $params = [':id' => $id];
-
-        // Dynamically build the SET clause based on the provided data
-        foreach ($data as $key => $value) {
-            $fields[] = "$key = :$key";
-            $params[":$key"] = $value;
-        }
-
-        // If no data fields were provided, throw an exception
-        if (empty($fields)) {
-            throw new Exception("No fields to update.");
-        }
-
-        // Construct the query
-        $query = "UPDATE hl_spirits 
-                SET " . implode(', ', $fields) . " 
-                WHERE id = :id";
-
-        // Execute the update query
-        return $this->databaseService->executeUpdate($query, $params);
-    }
+  
 
 
     public function getTitlesByLanguageName() {

@@ -3,6 +3,7 @@
 namespace App\Models\Materials;
 
 use App\Services\Database\DatabaseService;
+use App\Models\BaseModel;   
 
 /**
  * DownloadModel
@@ -10,7 +11,7 @@ use App\Services\Database\DatabaseService;
  * This class represents a download event for a material. It stores information such as the champion who downloaded it,
  * the file details, tips sent/requested, and the elapsed time since download.
  */
-class DownloadModel {
+class DownloadModel extends BaseModel {
 
     private $databaseService;
 
@@ -90,42 +91,30 @@ class DownloadModel {
         return $this->databaseService->getLastInsertId();
     }
 
-    /**
- * Update an existing download record in the database.
- *
- * @param int   $id   The ID of the record to update.
- * @param array $data The data to update.
- * @return bool Returns true if the update was successful.
- */
-    public function update($id, $data): bool {
-        if (!$id) {
-            throw new Exception("ID is required for updating the record.");
-        }
-
-        // Initialize the fields array and params
-        $fields = [];
-        $params = [':id' => $id];
-
-        // Dynamically build the SET clause based on the provided data
-        foreach ($data as $key => $value) {
-            $fields[] = "$key = :$key";
-            $params[":$key"] = $value;
-        }
-
-        // If no data fields were provided, throw an exception
-        if (empty($fields)) {
-            throw new Exception("No fields to update.");
-        }
-
-        // Construct the query
-        $query = "UPDATE hl_downloads 
-                SET " . implode(', ', $fields) . " 
-                WHERE id = :id";
-
-        // Execute the update query
-        return $this->databaseService->executeUpdate($query, $params);
+   
+    // Specify the valid columns for the downloads table
+    protected function getValidColumns()
+    {
+        return [
+            'champion_id', 
+            'file_name', 
+            'download_date', 
+            'requested_tips', 
+            'sent_tips', 
+            'file_id', 
+            'elapsed_months', 
+            'tip', 
+            'tip_detail'
+        ];
     }
 
+    // Define the table name for this model
+    protected function getTableName()
+    {
+        return 'hl_downloads';
+    }
+
+    
 
     /**
      * Create a new download record or update an existing one.

@@ -3,9 +3,10 @@ namespace App\Models\Emails;
 
 use App\Services\Database\DatabaseService;
 use App\Services\Debugging;
+use App\Models\BaseModel;
 use PDO;
 
-class EmailSeriesMemberModel {
+class EmailSeriesMemberModel extends BaseModel{
 
     private $databaseService;
 
@@ -74,21 +75,29 @@ class EmailSeriesMemberModel {
         return $this->insert();
     }
 
-    public function update($id, $data) {
-        $fields = [];
-        $params = [':id' => $id];
-        // Dynamically build the query
-        foreach ($data as $key => $value) {
-            $fields[] = "$key = :$key";
-            $params[":$key"] = $value;
-        }
-        
-        $query = "UPDATE hl_email_list_members 
-                  SET " . implode(', ', $fields) . " 
-                  WHERE id = :id";
-        
-        return $this->databaseService->executeUpdate($query, $params);
+    // This method updates the object's values in the database  
+    // Specify the valid columns for the email list members
+    protected function getValidColumns()
+    {
+        return [
+            'list_id', 
+            'list_name', 
+            'champion_id', 
+            'subscribed_date', 
+            'last_tip_sent', 
+            'last_tip_sent_date', 
+            'finished_all_tips', 
+            'unsubscribed_date'
+        ];
     }
+
+    // Define the table name for this model
+    protected function getTableName()
+    {
+        return 'hl_email_list_members';
+    }
+
+    
     
     // Delete a record
     public function delete($id) {
