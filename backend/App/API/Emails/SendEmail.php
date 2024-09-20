@@ -1,12 +1,12 @@
 <?php
 
-use App\Services\Emails\Smtp2GoMailerService;
+use App\Services\Emails\MailerService;
 use App\Utilities\RequestValidator;
 
 /**
- * Send an email using the Smtp2GoMailerService after validating the request.
+ * Send an email using the MailerService after validating the request.
  * 
- * This script is responsible for sending an email using the Smtp2GoMailerService.
+ * This script is responsible for sending an email using the MailerService.
  * It validates the incoming request to ensure that the user has the necessary
  * administrative rights. If the 'bcc' field is not set, it defaults to an empty string.
  * Finally, it returns a JSON-encoded response indicating success or failure.
@@ -27,10 +27,10 @@ if (!isset($postData['bcc'])) {
 }
 writeLogDebug("SendEmail-8", $postData);
 
-// Instantiate the Smtp2GoMailerService with sender details and API key
-$mailer = new Smtp2GoMailerService(DEFAULT_EMAIL_ADDRESS, DEFAULT_EMAIL_SENDER);
+// Instantiate the MailerService with sender details and API key
+$mailer = new MailerService(DEFAULT_EMAIL_ADDRESS, DEFAULT_EMAIL_SENDER);
 
-// Send the email using the Smtp2GoMailerService
+// Send the email using the MailerService
 $email_response = $mailer->sendEmail(
     $postData['address'],  // Recipient address
     'Test Name',           // Recipient name (hardcoded as 'Test Name' for now)

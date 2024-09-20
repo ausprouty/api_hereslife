@@ -7,7 +7,7 @@ use SMTP2GO\Service\Mail\Send as MailSend;
 use SMTP2GO\Types\Mail\Address;
 use SMTP2GO\Collections\Mail\AddressCollection;
 
-class Smtp2GoMailerService
+class MailerService
 {
     private $senderEmail;
     private $senderName;
@@ -50,7 +50,7 @@ class Smtp2GoMailerService
         $apiClient = new ApiClient(STMP_API_KEY);
         $success = $apiClient->consume($sendService);
         $responseBody = $apiClient->getResponseBody();
-        writeLogDebug("Smtp2GoMailerService-51", $responseBody);
+        writeLogDebug("MailerService-51", $responseBody);
         return $responseBody;
     }
 }

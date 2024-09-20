@@ -72,22 +72,42 @@ class DatabaseService {
     }
 
     /**
-     * Executes a SQL query with optional parameters.
+     * Executes a SQL query with optional parameters and binds them based on their type.
+     * 
+     * This method prepares the SQL query and then binds the provided parameters, ensuring that integers 
+     * are bound as `PDO::PARAM_INT` to avoid issues with clauses like `LIMIT`. Strings are bound as 
+     * `PDO::PARAM_STR` by default. It then executes the query and returns the PDO statement object.
      *
      * @param string $query The SQL query to execute.
-     * @param array $params Optional parameters for prepared statement.
-     * @return \PDOStatement The PDOStatement object.
+     * @param array $params Optional parameters for prepared statement. Parameters are automatically 
+     *                      bound as integers if their value is an integer, otherwise they are bound as strings.
+     *                      Example: [':emails_per_que' => 1, ':days_between_emails' => 2].
+     * @return \PDOStatement The PDOStatement object after query execution.
      * @throws Exception If query execution fails.
      */
     public function executeQuery(string $query, array $params = []) {
         try {
+            // Prepare the query using the PDO connection
             $statement = $this->dbConnection->prepare($query);
-            $statement->execute($params);
+            
+            // Iterate over the provided parameters and bind each based on its type
+            foreach ($params as $key => $value) {
+                // Bind as integer if the value is an integer, otherwise bind as string
+                $paramType = is_int($value) ? PDO::PARAM_INT : PDO::PARAM_STR;
+                $statement->bindValue($key, $value, $paramType);
+            }
+
+            // Execute the prepared statement
+            $statement->execute();
+            
+            // Return the PDO statement object to allow fetching results or row count
             return $statement;
         } catch (PDOException $e) {
+            // Throw an exception if the query execution fails, including the error message
             throw new Exception("Error executing the query: " . $e->getMessage());
         }
     }
+
 
     /**
      * Executes a SQL update (INSERT, UPDATE, DELETE) with optional parameters.

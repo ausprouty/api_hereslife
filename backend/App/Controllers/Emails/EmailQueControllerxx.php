@@ -2,7 +2,7 @@
 
 namespace App\Controllers\Emails;
 use App\Services\DatabaseService;
-use App\Services\Emails\Smtp2GoMailerService;
+use App\Services\Emails\MailerService;
 use PDO;
 
 class EmailQueueController
@@ -10,7 +10,7 @@ class EmailQueueController
     private $databaseService;
     private $mailer;
     
-    public function __construct(DatabaseService $databaseService, Smtp2GoMailerService $mailer)
+    public function __construct(DatabaseService $databaseService, MailerService $mailer)
     {
         $this->databaseService = $databaseService;
         $this->mailer = $mailer;
@@ -58,7 +58,7 @@ class EmailQueueController
             return; // Skip this email for now
         }
 
-        // Send the email using Smtp2GoMailerService
+        // Send the email using MailerService
         $email_response = $this->mailer->sendEmail(
             $queueItem['email_content']['address'],  // Recipient address
             $queueItem['email_content']['name'],                             // Recipient name
