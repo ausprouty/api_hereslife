@@ -67,7 +67,7 @@
     <div class="email-content">
         <p>You are receiving this email because you came to hereslife.com and typed your email address before downloading materials from the website.</p>
         <p>Our privacy statement says that we will only use your email address to send you information you requested or to tell you about new resources and events which can help you become more effective in reaching cross-cultural communities with the Gospel.</p>
-        <p>Here is how to <a href="|EMAIL_UNSUB|">unsubscribe from our mailings</a></p>
-    </div>
+        <p>Here is how to <a href="https://api.hereslife.com/user/unsubscribe/{{cid}}/{{hash}}">unsubscribe from our mailings</a></p>
+    </div><p>You can also  <a href="https://api.hereslife.com/user/update/{{cid}}/{{hash}}">update your email address</a></p>
 </body>
 </html>

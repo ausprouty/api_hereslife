@@ -17,7 +17,7 @@ class EmailQueService
      */
     private $databaseService;
     private $emailFormatService;
-    private $mailer;
+    private $mailerService;
 
     /**
      * EmailQueueService constructor.
@@ -29,7 +29,7 @@ class EmailQueService
     {
         $this->databaseService = $databaseService;
         $this->emailFormatService = $emailFormatService;
-        $this->mailer = $mailer;
+        $this->mailerService = $mailer;
     }
 
 
@@ -111,11 +111,13 @@ class EmailQueService
     private function processQueueItem(array $queueItem)
     {
         writeLog('EmailQueService::processQueueItem', $queueItem);
-        // Use the EmailFormatService to format the email content
-        $formattedEmail = $this->emailFormatService->setValues($queueItem);
+        // Use the EmailFormatService to format the email content and return an array of email details:
+        
+        $emailData = $this->emailFormatService->setValues($queueItem);
 
         // Send the formatted email (the actual sending logic can be implemented separately)
-        $this->sendEmail($formattedEmail);
+       // $this->sendEmail($emailData);
+       writeLog('EmailQueService::processQueueItem::emailData', $emailData);    
     }
 
     /**
@@ -125,7 +127,13 @@ class EmailQueService
      */
     private function sendEmail(array $emailData)
     {
-        // Implement email sending logic here
+        $this->mailerService->sendEmail(
+            $emailData['email_to'], 
+            $emailData['first_name'], 
+            $emailData['subject'], 
+            $emailData['body'], 
+            $emailData['$bcc'] = null
+        );
     }
 }
 

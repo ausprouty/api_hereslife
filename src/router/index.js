@@ -1,11 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { useAuthStore } from '@/stores/AuthStore'; // Import your Pinia store
 import Dashboard from '@/views/Dashboard.vue'; // Adjust the path as necessary
-import EmailSendDirect from '@/views/EmailSendDirect.vue'; 
-import EmailQueGroup from '@/views/EmailQueGroup.vue';
-import EmailSeriesEditor from '@/views/EmailSeriesEditor.vue'; // Adjust the path as necessary
-import EmailSeriesTitles from '@/views/EmailSeriesTitles.vue';
-import LoginUser from '@/views/LoginUser.vue';
+import EmailSendDirect from '@/views/Emails/EmailSendDirect.vue'; 
+import EmailQueGroup from '@/views/Emails/EmailQueGroup.vue';
+import EmailSeriesEditor from '@/views/Emails/EmailSeriesEditor.vue'; // Adjust the path as necessary
+import EmailSeriesTitles from '@/views/Emails/EmailSeriesTitles.vue';
+import LoginUser from '@/views/People/LoginUser.vue';
+import UnsubscribeUser from '@/views/People/UnsubscribeUser.vue';
+import UserChangeEmail from '@/views/People/UserChangeEmail.vue';
+
+
 
 const routes = [
   
@@ -39,6 +43,16 @@ const routes = [
     path: '/',
     name: 'LoginUser',
     component: LoginUser,
+  },
+  {
+    path: '/email/unsubscribe/:cid/:hash',
+    name: 'UnsubscribeUser',
+    component: UnsubscribeUser,
+  },
+  {
+    path: '/email/user/update/:cid/:hash',
+    name: 'UserChangeEmail',
+    component: UserChangeEmail,
   },
   
   // Add more routes here
