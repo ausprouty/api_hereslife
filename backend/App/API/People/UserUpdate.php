@@ -4,8 +4,7 @@
 use App\Services\Authorization\UserAuthorizationService;
 use App\Services\Database\DatabaseService;
 use App\Repositories\ChampionRepository;
-use App\Services\Emails\EmailSubscriptionService;
-use App\Controllers\Emails\EmailSubscriptionController;
+
 
 /**
  * Initiator script for handling user unsubscription.
@@ -18,19 +17,18 @@ use App\Controllers\Emails\EmailSubscriptionController;
 $databaseService = new DatabaseService();  // Database connection handler
 $championRepository = new ChampionRepository($databaseService);  // Repository for user data
 $userAuthorizationService = new UserAuthorizationService($championRepository);  // Service for authorization
-$emailSubscriptionService = new EmailSubscriptionService();  // Service for managing email subscriptions
-$emailSubscriptionController = new EmailSubscriptionController($emailSubscriptionService);  // Controller to handle subscription actions
+ // Controller to handle subscription actions
 
 // Checking user authorization and handling unsubscription
 if ($userAuthorizationService->checkUserHash($postData['cid'], $postData['hash'])) {
     
-    // Unsubscribe the user
-    $emailSubscriptionController->unsubscribe($postData['cid']);
+    // Update the user
+    $ChampionRepository->update($postData);
     
     // Prepare the success response
     $data = [
         'success' => 'TRUE',  // Indicates the unsubscription was successful
-        'message' => 'Successfully removed from mailing lists'
+        'message' => 'Details successfully updated'
     ]; 
 } else {
     // Prepare the failure response

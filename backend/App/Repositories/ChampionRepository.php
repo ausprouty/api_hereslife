@@ -29,6 +29,14 @@ class ChampionRepository extends BaseRepository
             return null;
         }
     }
+     // Find email by user ID
+     public function findEmailById($user_id)
+     {
+         // Logic to query the database for the email address based on user ID
+         $query = "SELECT email FROM champions WHERE id = :user_id";
+         $params = [':user_id' => $user_id];
+         return $this->databaseService->fetchSingleValue($query, $params);
+     }
 
     // Find a champion by cid
     public function findByCid(int $cid): ?ChampionModel
