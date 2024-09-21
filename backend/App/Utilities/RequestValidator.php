@@ -2,7 +2,7 @@
 
 namespace App\Utilities;
 
-use App\Services\Security\AuthorizationService;
+use App\Services\Security\AdminAuthorizationService;
 use App\Utilities\ErrorHandler;
 
 /**
@@ -34,8 +34,8 @@ class RequestValidator
         }
 
         // Check if the user is authorized as an admin
-        $authorizationService = new AuthorizationService();
-        if (!$authorizationService->checkAuthorizationUserHeader()) {
+        $AdminAuthorizationService = new AdminAuthorizationService();
+        if (!$AdminAuthorizationService->checkAuthorizationUserHeader()) {
             ErrorHandler::handle('Not Authorized', "Not authorized in $context");
         }
     }
@@ -61,7 +61,7 @@ class RequestValidator
         }
 
         // Check if the provided API key is valid
-        if (!AuthorizationService::checkApiKey($apiKey)) {
+        if (!AdminAuthorizationService::checkApiKey($apiKey)) {
             ErrorHandler::handle('Not Authorized', "Not authorized in $context");
         }
     }

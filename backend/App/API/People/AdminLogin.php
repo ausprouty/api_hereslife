@@ -1,6 +1,6 @@
 <?php
 
-use App\Services\Security\AuthorizationService;
+use App\Services\Security\AdminAuthorizationService;
 use App\Models\People\AdministratorModel;
 use App\Services\Database\DatabaseService;
 use App\Utilities\ErrorHandler;
@@ -16,7 +16,7 @@ use App\Utilities\ErrorHandler;
  * The script interacts with the following components:
  * - **AdministratorModel**: Handles the database query to verify the administrator's credentials.
  * - **DatabaseService**: Manages the connection to the 'standard' database.
- * - **AuthorizationService**: Generates the JWT token for the authenticated administrator.
+ * - **AdminAuthorizationService**: Generates the JWT token for the authenticated administrator.
  * - **ErrorHandler**: Handles errors such as failed authentication.
  *
  * @global array $postData The incoming request data containing the username and password.
@@ -38,8 +38,8 @@ if ($userId == 'FALSE') {
     ErrorHandler::handle('Not Authorized', 'Please re-enter your username and password');
 }
 
-// Instantiate the AuthorizationService to generate a JWT token
-$jwtService = new AuthorizationService();
+// Instantiate the AdminAuthorizationService to generate a JWT token
+$jwtService = new AdminAuthorizationService();
 
 // Generate a JWT token for the verified administrator
 $token = $jwtService->generateJWT($userId, 'admin');

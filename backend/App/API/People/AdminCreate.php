@@ -1,6 +1,6 @@
 <?php
 
-use App\Services\Security\AuthorizationService;
+use App\Services\Security\AdminAuthorizationService;
 use App\Models\People\AdministratorModel;
 use App\Services\Database\DatabaseService;
 
@@ -14,7 +14,7 @@ use App\Services\Database\DatabaseService;
  * The script interacts with the following components:
  * - **AdministratorModel**: Manages database interactions for creating an administrator and retrieving the administrator's ID.
  * - **DatabaseService**: Handles the connection to the database, specifically the 'standard' database in this case.
- * - **AuthorizationService**: Responsible for generating a JWT token for the newly created administrator.
+ * - **AdminAuthorizationService**: Responsible for generating a JWT token for the newly created administrator.
  *
  * The script logs the input `$postData` and the result for tracking purposes.
  *
@@ -37,7 +37,7 @@ $administratorModel->create($postData);
 $userId = $administratorModel->getId();
 
 // Generate a JWT token for the new administrator
-$jwtService = new AuthorizationService();
+$jwtService = new AdminAuthorizationService();
 $token = $jwtService->generateJWT($userId, 'admin');
 
 // Prepare the response data, including the user ID and JWT token

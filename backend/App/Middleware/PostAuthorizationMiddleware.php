@@ -4,7 +4,7 @@ namespace App\Middleware;
 
 use App\Services\Security\SanitizeInputService;
 use App\Controllers\Data\PostInputController;
-use App\Services\Security\AuthorizationService;
+use App\Services\Security\AdminAuthorizationService;
 
 /**
  * PostAuthorizationMiddleware
@@ -14,7 +14,7 @@ use App\Services\Security\AuthorizationService;
  * authorization headers before allowing the data to be processed further.
  *
  * - **Sanitize Input**: The input data is sanitized to prevent malicious input.
- * - **Authorization**: The request is verified using the `AuthorizationService`. If the request is not authorized,
+ * - **Authorization**: The request is verified using the `AdminAuthorizationService`. If the request is not authorized,
  *   a 401 Unauthorized response is returned.
  * - **Logging**: Logs are written to track the input data and the result of the authorization check.
  * 
@@ -52,7 +52,7 @@ class PostAuthorizationMiddleware {
             writeLog('PostAuthorizationMiddleware-20', $postInputController->getDataSet());
 
             // Check if the request is authorized
-            $authorized = AuthorizationService::checkAuthorizationHeader();
+            $authorized = AdminAuthorizationService::checkAuthorizationHeader();
             if (!$authorized) {
                 // Log unauthorized access and send 401 status
                 error_log('not authorized');

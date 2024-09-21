@@ -7,19 +7,19 @@ use \Firebase\JWT\Key;
 use Exception;
 
 /**
- * AuthorizationService handles JWT-based authorization and API key validation.
+ * AdminAuthorizationService handles JWT-based authorization and API key validation.
  * 
  * This service is responsible for:
  * - Generating and verifying JWT tokens.
  * - Checking if a user has a valid JWT and ensuring they have the appropriate access level.
  * - Validating API keys sent via request headers.
  */
-class AuthorizationService
+class AdminAuthorizationService
 {
     private $secretKey;
 
     /**
-     * AuthorizationService constructor.
+     * AdminAuthorizationService constructor.
      * Initializes the service with the secret key used for JWT encoding and decoding.
      */
     public function __construct()
@@ -116,4 +116,7 @@ class AuthorizationService
     {
         return $apiKey === WORDPRESS_HL_API_KEY || $apiKey === VITE_APP_HL_API_KEY;
     }
+
+   
+   
 }
