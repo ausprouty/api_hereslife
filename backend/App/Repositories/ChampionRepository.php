@@ -33,7 +33,7 @@ class ChampionRepository extends BaseRepository
      public function findEmailById($user_id)
      {
          // Logic to query the database for the email address based on user ID
-         $query = "SELECT email FROM champions WHERE id = :user_id";
+         $query = "SELECT email FROM hl_champions WHERE cid = :user_id";
          $params = [':user_id' => $user_id];
          return $this->databaseService->fetchSingleValue($query, $params);
      }
@@ -122,6 +122,10 @@ class ChampionRepository extends BaseRepository
     {
         return 'hl_champions';
     }
+    public function getPrimaryKey()
+    {
+        return 'cid'; // Specify the primary key for this table
+    }
     
       
     // Helper method to get the parameter array from ChampionModel
@@ -151,9 +155,5 @@ class ChampionRepository extends BaseRepository
         ];
     }
 
-    // Define the table name for this model
-    protected function getTableName()
-    {
-        return 'hl_champions';
-    }
+    
 }

@@ -17,34 +17,15 @@ use App\Repositories\ChampionRepository;
 $databaseService = new DatabaseService();  // Database connection handler
 $championRepository = new ChampionRepository($databaseService);  // Repository for user data
 $userAuthorizationService = new UserAuthorizationService($championRepository);  // Service for authorization
- // Controller to handle subscription actions
 
-// Checking user authorization and handling unsubscription
-if ($userAuthorizationService->checkUserHash($postData['cid'], $postData['hash'])) {
-    
-    // Update the user
-    writeLog('UserUpdate-20', $postData);
-    $championRepository->update($postData['cid'], $postData);
-    
-    // Prepare the success response
-    $data = [
-        'success' => 'TRUE',  // Indicates the unsubscription was successful
-        'message' => 'Details successfully updated'
-    ]; 
-} else {
-    // Prepare the failure response
-    $data = [
-        'success' => 'FALSE',  // Indicates the link is invalid
-        'message' => 'This link is invalid'
-    ];
-}
+$hash = $userAuthorizationService->generateUserHash($cid);  // Generate a hash for the user
 
 // Log the result of the operation
-writeLog('UserUnsubscribe-21', $data);
+writeLog('returnTokenForUser-21', $hash);
 
 // Set content type to JSON
 header('Content-Type: application/json');
 
 // Output the response in JSON format
-echo json_encode($data);
+echo json_encode ("$cid/$hash");
 

@@ -7,7 +7,7 @@ import EmailSeriesEditor from '@/views/Emails/EmailSeriesEditor.vue'; // Adjust 
 import EmailSeriesTitles from '@/views/Emails/EmailSeriesTitles.vue';
 import LoginUser from '@/views/People/LoginUser.vue';
 import UnsubscribeUser from '@/views/People/UnsubscribeUser.vue';
-import UserChangeEmail from '@/views/People/UserChangeEmail.vue';
+import UserChangeDetails from '@/views/People/UserChangeDetails.vue';
 
 
 
@@ -17,27 +17,32 @@ const routes = [
     path: '/dashboard',
     name: 'Dashboard',
     component: Dashboard,
+    meta: { requiresAuth: true },
   },
   {
     path: '/email/series/titles',
     name: 'EmailSeriesTitles',
     component: EmailSeriesTitles,
+    meta: { requiresAuth: true },
   },
   {
     path: '/email/series/:series?/:sequence?',
     name: 'EmailSeriesEditor',
     component: EmailSeriesEditor,
+    meta: { requiresAuth: true },
   },
   
   {
     path: '/email/direct',
     name: 'EmailSendDirect',
     component: EmailSendDirect,
+    meta: { requiresAuth: true },
   },
   {
     path: '/email/group/que',
     name: 'EmailQueGroup',
     component: EmailQueGroup,
+    meta: { requiresAuth: true },
   },
   {
     path: '/',
@@ -45,14 +50,16 @@ const routes = [
     component: LoginUser,
   },
   {
-    path: '/email/unsubscribe/:cid/:hash',
+    path: '/user/unsubscribe/:cid/:hash',
     name: 'UnsubscribeUser',
     component: UnsubscribeUser,
+    meta: { requiresAuth: false },
   },
   {
-    path: '/email/user/update/:cid/:hash',
-    name: 'UserChangeEmail',
-    component: UserChangeEmail,
+    path: '/user/update/:cid/:hash',
+    name: 'UserChangeDetails',
+    component: UserChangeDetails,
+    meta: { requiresAuth: false },
   },
   
   // Add more routes here
@@ -66,17 +73,18 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const authStore = useAuthStore(); // Access the Pinia store
 
-  // Check if the route is the login page, if so, allow access
-  if (to.name === 'LoginUser') {
-    next();
-  } else {
-    // If not, check if the user is authenticated
+  // Check if the route requires authentication
+  if (to.meta.requiresAuth) {
+    // If the user is not authenticated, redirect to the login page
     if (!authStore.isAuthenticated) {
       next({ name: 'LoginUser' });
     } else {
-      next();
+      next(); // Proceed to the route
     }
+  } else {
+    next(); // Proceed to the route that doesn't require authentication
   }
 });
+
 
 export default router;

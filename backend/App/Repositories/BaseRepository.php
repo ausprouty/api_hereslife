@@ -13,15 +13,17 @@ abstract class BaseRepository
         $this->databaseService = $databaseService;
     }
 
-    // Update method that can be reused across all repositories
     public function update($id, $data)
     {
         // Get valid columns for this model from the child class
         $validColumns = $this->getValidColumns();
 
+        // Get the primary key from the child class (or default to 'id')
+        $primaryKey = $this->getPrimaryKey();
+
         // Initialize fields array and params for the query
         $fields = [];
-        $params = [':id' => $id];
+        $params = [":$primaryKey" => $id];
 
         // Filter the data to only include valid columns
         foreach ($data as $key => $value) {
@@ -38,15 +40,22 @@ abstract class BaseRepository
 
         // Construct the query using the dynamically built fields
         $query = "UPDATE " . $this->getTableName() . " 
-                  SET " . implode(', ', $fields) . " 
-                  WHERE id = :id";
+                SET " . implode(', ', $fields) . " 
+                WHERE $primaryKey = :$primaryKey";
 
         return $this->databaseService->executeUpdate($query, $params);
     }
+
 
     // Abstract method to define the table name for each repository
     abstract protected function getTableName();
 
     // Abstract method to define the valid columns for each repository
     abstract protected function getValidColumns();
+
+    public function getPrimaryKey()
+    {
+        // Default primary key is 'id'. Child classes can override this if needed.
+        return 'id';
+    }
 }

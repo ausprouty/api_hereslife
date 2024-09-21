@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Authorization;
+namespace App\Services\Security;
 
 use App\Repositories\ChampionRepository;
 use App\Services\Database\DatabaseService;

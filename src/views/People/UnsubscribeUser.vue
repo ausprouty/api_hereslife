@@ -27,15 +27,15 @@
       const success = ref(false);
   
       // Get CID and HASH from the router params
-      const CID = route.params.CID;
-      const HASH = route.params.HASH;
+      const cid = route.params.cid;
+      const hash = route.params.hash;
   
       const unsubscribe = async () => {
         loading.value = true;
         message.value = '';
   
         try {
-          const postData = { CID, HASH };
+          const postData = { cid, hash };
           const response = await AxiosService.post('/user/unsubscribe', postData);
   
           if (response.data.success) {

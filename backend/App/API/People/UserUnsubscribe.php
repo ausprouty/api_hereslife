@@ -1,41 +1,37 @@
 <?php
 
 // Import necessary classes
-use App\Services\Authorization\UserAuthorizationService;
-use App\Services\Database\DatabaseService;
-use App\Repositories\ChampionRepository;
+use App\Services\Security\UserAuthorizationService;
 use App\Services\Emails\EmailSubscriptionService;
-use App\Controllers\Emails\EmailSubscriptionController;
+use App\Services\Database\DatabaseService;
 
 /**
  * Initiator script for handling user unsubscription.
  * 
  * This script checks the provided user hash using the UserAuthorizationService.
- * If valid, it processes the unsubscribe request using the EmailSubscriptionController.
+ * If valid, it processes the unsubscribe request using the EmailSubscriptionService.
  */
 
 // Instantiate necessary services
 $databaseService = new DatabaseService();  // Database connection handler
-$championRepository = new ChampionRepository($databaseService);  // Repository for user data
-$userAuthorizationService = new UserAuthorizationService($championRepository);  // Service for authorization
-$emailSubscriptionService = new EmailSubscriptionService();  // Service for managing email subscriptions
-$emailSubscriptionController = new EmailSubscriptionController($emailSubscriptionService);  // Controller to handle subscription actions
+$userAuthorizationService = new UserAuthorizationService($databaseService);  // Service for authorization
+$emailSubscriptionService = new EmailSubscriptionService($databaseService);  // Service for managing email subscriptions
 
-// Checking user authorization and handling unsubscription
+// Check user authorization using cid and hash from postData
 if ($userAuthorizationService->checkUserHash($postData['cid'], $postData['hash'])) {
     
-    // Unsubscribe the user
-    $emailSubscriptionController->unsubscribe($postData['cid']);
+    // Unsubscribe the user using the EmailSubscriptionService
+    $emailSubscriptionService->unsubscribeUser($postData['cid']);
     
     // Prepare the success response
     $data = [
-        'success' => 'TRUE',  // Indicates the unsubscription was successful
+        'success' => true,  // Unsubscription was successful
         'message' => 'Successfully removed from mailing lists'
-    ]; 
+    ];
 } else {
     // Prepare the failure response
     $data = [
-        'success' => 'FALSE',  // Indicates the link is invalid
+        'success' => false,  // Authorization failed
         'message' => 'This link is invalid'
     ];
 }
@@ -43,9 +39,8 @@ if ($userAuthorizationService->checkUserHash($postData['cid'], $postData['hash']
 // Log the result of the operation
 writeLog('UserUnsubscribe-21', $data);
 
-// Set content type to JSON
+// Set the response content type to JSON
 header('Content-Type: application/json');
 
-// Output the response in JSON format
+// Return the response as JSON
 echo json_encode($data);
-

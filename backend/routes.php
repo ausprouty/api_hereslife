@@ -39,10 +39,11 @@ post($path . 'email/que/group', 'App/API/Emails/QueEmailForGroup.php',$postData)
 post($path . 'email/send/direct', 'App/API/Emails/SendEmail.php',$postData);
 post($path . 'email/series/text/update', 'App/API/Emails/SeriesEmailTextUpdate.php',$postData);
 post($path . 'materials/download', 'App/API/Materials/DownloadMaterialsUpdateUser.php', $postData);
-post($path . 'user/unsubsribe', 'App/API/People/UserUnsubscribe.php', $postData);
+post($path . 'user/unsubscribe', 'App/API/People/UserUnsubscribe.php', $postData);
 post($path . 'user/update', 'App/API/People/UserUpdate.php', $postData);
 if (ENVIRONMENT == 'local'){
     get($path . 'test/spirit/titles', 'App/Tests/canGetSpiritTitlesByLanguage.php');
+    get($path . 'test/token/$cid', 'App/Tests/returnTokenForUser.php');
     get($path . 'test/tracts/view', 'App/Tests/canGetTractsToView.php');
     get($path . 'test/tracts/monolingual', 'App/Tests/canGetTractsMonolingual.php');
     get($path . 'test/tracts/bilingual/english', 'App/Tests/canGetTractsBilingualEnglish.php');

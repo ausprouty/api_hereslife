@@ -36,8 +36,8 @@
       const success = ref(false);
   
       // Get CID and HASH from the router params
-      const CID = route.params.CID;
-      const HASH = route.params.HASH;
+      const cid = route.params.cid;
+      const hash = route.params.hash;
   
       const updateEmail = async () => {
         if (!validateEmail(newEmail.value)) {
@@ -49,9 +49,15 @@
         message.value = '';
   
         try {
-          const postData = { CID, HASH, newEmail: newEmail.value };
-          const response = await AxiosService.post('/user/update-email', postData);
-  
+          const postData = { 
+            cid, 
+            hash, 
+            email: newEmail.value 
+          };
+          console.log (route)
+          console.log (postData)
+          const response = await AxiosService.post('/user/update', postData);
+          console.log (response)
           if (response.data.success) {
             success.value = true;
             message.value = 'Your email address has been updated successfully.';
