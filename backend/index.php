@@ -51,8 +51,5 @@ function applyMiddleware(array $middlewares, $request) {
 $postData = PostAuthorizationMiddleware::getDataSet();
 writeLog('index-53', $postData);
 
-
-
-
 // Main application logic or routing
 require_once __DIR__ . '/routes.php';

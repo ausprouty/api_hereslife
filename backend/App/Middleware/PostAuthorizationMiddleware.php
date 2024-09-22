@@ -51,7 +51,7 @@ class PostAuthorizationMiddleware {
             // Retrieve and log the sanitized data
             writeLog('PostAuthorizationMiddleware-20', $postInputController->getDataSet());
 
-            // Check if the request is authorized
+            // Check if the request is from an authorized site
             $authorized = AdminAuthorizationService::checkAuthorizationHeader();
             if (!$authorized) {
                 // Log unauthorized access and send 401 status

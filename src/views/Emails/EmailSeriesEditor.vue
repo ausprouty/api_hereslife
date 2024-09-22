@@ -69,6 +69,7 @@ import axiosService from '@/services/axiosService';
 import Editor from '@tinymce/tinymce-vue';
 
 const tinyMCEApiKey = import.meta.env.VITE_APP_TINYCME_API_KEY;
+const hlAuthorizationToken = import.meta.env.VITE_APP_HL_API_KEY
 const route = useRoute();
 const apiUrl = import.meta.env.VITE_APP_API_URL;
 const imageUploadUrl = `${apiUrl}email/images/upload/tinymce`;
@@ -100,8 +101,13 @@ function handleImageUpload(blobInfo) {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     const formData = new FormData();
+
+    // Open the request
     xhr.open('POST', imageUploadUrl);
 
+    // Set up the authorization header with your token
+    xhr.setRequestHeader('Authorization', `Bearer ${hlAuthorizationToken}`);
+    // Set the onload handler to process the response
     xhr.onload = () => {
       if (xhr.status < 200 || xhr.status >= 300) {
         reject(`HTTP Error: ${xhr.status}`);
@@ -119,14 +125,19 @@ function handleImageUpload(blobInfo) {
       }
     };
 
+    // Handle any errors with the request
     xhr.onerror = () => {
       reject(`Image upload failed due to a XHR Transport error. Code: ${xhr.status}`);
     };
+
+    // Add the image file to the form data
     formData.append('file', blobInfo.blob());
 
+    // Send the request
     xhr.send(formData);
   });
 }
+
 
 const initializeEmail = () => {
   email.value.series = route.params.series || props.series || '';

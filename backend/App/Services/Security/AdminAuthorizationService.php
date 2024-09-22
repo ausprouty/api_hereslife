@@ -97,12 +97,14 @@ class AdminAuthorizationService
     public static function checkAuthorizationHeader(): bool
     {
         $headers = getallheaders();
+        writeLog('AdminAuthorizationService-99', $headers);
         if (!isset($headers['Authorization'])) {
             return false;
         }
 
         $authHeader = $headers['Authorization'];
         $apiKey = str_replace('Bearer ', '', $authHeader);
+        writeLog('AdminAuthorizationService-107', $apiKey );
         return self::checkApiKey($apiKey);
     }
 
