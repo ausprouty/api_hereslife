@@ -4,6 +4,7 @@
 use App\Services\Security\UserAuthorizationService;
 use App\Services\Emails\EmailSubscriptionService;
 use App\Services\Database\DatabaseService;
+use App\Repositories\ChampionRepository;
 
 /**
  * Initiator script for handling user unsubscription.
@@ -14,15 +15,15 @@ use App\Services\Database\DatabaseService;
 
 // Instantiate necessary services
 $databaseService = new DatabaseService();  // Database connection handler
-$userAuthorizationService = new UserAuthorizationService($databaseService);  // Service for authorization
+$championRepository = new ChampionRepository($databaseService);  // Repository for user data
+$userAuthorizationService = new UserAuthorizationService($championRepository);  // Service for authorization$emailSubscriptionService = new EmailSubscriptionService($databaseService);  // Service for managing email subscriptions
 $emailSubscriptionService = new EmailSubscriptionService($databaseService);  // Service for managing email subscriptions
+
 
 // Check user authorization using cid and hash from postData
 if ($userAuthorizationService->checkUserHash($postData['cid'], $postData['hash'])) {
-    
     // Unsubscribe the user using the EmailSubscriptionService
     $emailSubscriptionService->unsubscribeUser($postData['cid']);
-    
     // Prepare the success response
     $data = [
         'success' => true,  // Unsubscription was successful
@@ -32,12 +33,9 @@ if ($userAuthorizationService->checkUserHash($postData['cid'], $postData['hash']
     // Prepare the failure response
     $data = [
         'success' => false,  // Authorization failed
-        'message' => 'This link is invalid'
+        'message' => 'Either you have already unsubscribed or the link is invalid'
     ];
 }
-
-// Log the result of the operation
-writeLog('UserUnsubscribe-21', $data);
 
 // Set the response content type to JSON
 header('Content-Type: application/json');

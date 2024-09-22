@@ -51,8 +51,7 @@ $data = [
     'token' => $token,    // The generated JWT token for authentication
 ];
 
-// Log the successful authentication and response data
-writeLog('AdminCreate-21', $data);
+
 
 // Set the content type to JSON and output the response
 header('Content-Type: application/json');

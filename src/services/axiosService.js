@@ -15,12 +15,12 @@ axiosInstance.interceptors.request.use(config => {
   const userId = authStore.user ? authStore.user.id : null; // Get user ID from Pinia store
   
   if (siteToken) {
-    console.log ('siteToken', siteToken);
+
     config.headers['Authorization'] = `Bearer ${siteToken}`;
   }
   
   if (userToken) {
-    console.log ('userToken', userToken);
+
     config.headers['User-Authorization'] = `Bearer ${userToken}`;
   }
   // Append userId as a query parameter `u` if:
@@ -32,7 +32,7 @@ axiosInstance.interceptors.request.use(config => {
     config.params['u'] = userId;
   }
 
-  console.log('Modified Axios Request Config:', config);
+  //console.log('Modified Axios Request Config:', config);
   return config;
 }, error => {
   return Promise.reject(error);

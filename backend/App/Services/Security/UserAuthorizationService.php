@@ -53,8 +53,10 @@ class UserAuthorizationService
     {
         // Fetch the user's email using the repository
         $email = $this->championRepository->findEmailById($user_id);
+        $id = (int) $user_id;
         // Generate the correct hash
-        $correct_hash = hash_hmac('sha256', $user_id . $email, USER_SECRET_KEY);
+        $correct_hash = hash_hmac('sha256', $id . $email, USER_SECRET_KEY);
+
         // Compare the provided hash with the correct hash
         return $hash === $correct_hash;
     }

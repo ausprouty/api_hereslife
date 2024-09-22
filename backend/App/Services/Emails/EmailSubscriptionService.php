@@ -44,10 +44,15 @@ class EmailSubscriptionService
      */
     public function unsubscribeUser($cid)
     {
-        $email = $this->addToBlockList($cid);
+
+        $this->addToBlockList($cid);
+
         $this->deleteEmailAddress($cid);
+     
         $this->deleteFromEmailQue($cid);
+      
         $this->unsubscribeFromEmailSubscription($cid);
+     
     }
 
     /**
@@ -66,7 +71,7 @@ class EmailSubscriptionService
         ];
 
         // Update the specific champion's email and unsubscribed_date by cid
-        $query = "UPDATE hl_champion SET email = :email, unsubscribed_date = NOW() WHERE cid = :cid";
+        $query = "UPDATE hl_champions SET email = :email, unsubscribed_date = NOW() WHERE cid = :cid";
         $params = [':email' => $data['email'], ':cid' => $cid];
 
         $this->databaseService->executeUpdate($query, $params);
@@ -82,7 +87,7 @@ class EmailSubscriptionService
      */
     private function deleteFromEmailQue($cid)
     {
-        $query = "DELETE FROM hl_email_que WHERE cid = :cid";
+        $query = "DELETE FROM hl_email_que WHERE champion_id = :cid";
         $params = [':cid' => $cid];
 
         return $this->databaseService->executeUpdate($query, $params);
@@ -98,7 +103,7 @@ class EmailSubscriptionService
      */
     private function unsubscribeFromEmailSubscription($cid)
     {
-        $query = "UPDATE hl_series_members SET unsubscribed_date = NOW() WHERE cid = :cid";
+        $query = "UPDATE hl_email_series_members SET unsubscribed_date = NOW() WHERE champion_id = :cid";
         $params = [':cid' => $cid];
 
         return $this->databaseService->executeUpdate($query, $params);
@@ -115,17 +120,26 @@ class EmailSubscriptionService
     private function addToBlockList($cid)
     {
         // Retrieve the email associated with the given cid
-        $query = "SELECT email FROM hl_champion WHERE cid = :cid";
+        $query = "SELECT email FROM hl_champions WHERE cid = :cid";
         $params = [':cid' => $cid];
 
-        $email = $this->databaseService->fetchOne($query, $params);
+        $email = $this->databaseService->fetchSingleValue($query, $params);
 
-        // Insert the email into the blocklist
-        $insertQuery = "INSERT INTO hl_email_blocklist (email) VALUES (:email)";
-        $insertParams = [':email' => $email];
+        // Check if the email already exists in the blocklist
+        $checkQuery = "SELECT COUNT(*) FROM hl_email_block WHERE email = :email";
+        $checkParams = [':email' => $email];
 
-        $this->databaseService->executeUpdate($insertQuery, $insertParams);
+        $emailExists = $this->databaseService->fetchSingleValue($checkQuery, $checkParams);
+
+        if ($emailExists == 0) {
+            // If email doesn't exist, insert it into the blocklist
+            $insertQuery = "INSERT INTO hl_email_block (email) VALUES (:email)";
+            $insertParams = [':email' => $email];
+
+            $this->databaseService->executeUpdate($insertQuery, $insertParams);
+        }
 
         return $email;
     }
+
 }
