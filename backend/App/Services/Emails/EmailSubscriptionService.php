@@ -45,7 +45,7 @@ class EmailSubscriptionService
     public function unsubscribeUser($cid)
     {
 
-        $this->addToBlockList($cid);
+        $this->addToBlockList($cid, $email = NULL);
 
         $this->deleteEmailAddress($cid);
      
@@ -117,14 +117,16 @@ class EmailSubscriptionService
      * @param int $cid The unique identifier for the champion/user
      * @return string The email address added to the block list
      */
-    private function addToBlockList($cid)
+    public function addToBlockList($cid, $email = NULL)
     {
-        // Retrieve the email associated with the given cid
-        $query = "SELECT email FROM hl_champions WHERE cid = :cid";
-        $params = [':cid' => $cid];
+        if ($email == NULL) {
+            // Retrieve the email associated with the given cid
+            $query = "SELECT email FROM hl_champions WHERE cid = :cid";
+            $params = [':cid' => $cid];
 
-        $email = $this->databaseService->fetchSingleValue($query, $params);
-
+            $email = $this->databaseService->fetchSingleValue($query, $params);
+        }
+        
         // Check if the email already exists in the blocklist
         $checkQuery = "SELECT COUNT(*) FROM hl_email_block WHERE email = :email";
         $checkParams = [':email' => $email];

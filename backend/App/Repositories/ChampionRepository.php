@@ -8,6 +8,13 @@ use Exception;
 class ChampionRepository extends BaseRepository
 {
    
+    public function getCidByEmail($email)
+    {
+        $query = "SELECT cid FROM hl_champions WHERE email = :email LIMIT 1";
+        $params = [':email' => $email];
+
+        return $this->databaseService->fetchSingleValue($query, $params)['cid'] ?? null;
+    }
 
     // Find a champion by email
     public function findByEmail(string $email): ?ChampionModel

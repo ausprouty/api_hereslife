@@ -31,6 +31,7 @@ get($path . 'tracts/view', 'App/API/Materials/getTractsToView.php');
 
 post($path . 'admin/create', 'App/API/People/AdminCreate.php', $postData);
 post($path . 'admin/login', 'App/API/People/AdminLogin.php', $postData);
+post($path . 'admin/users/unsubscribe', 'App/API/People/AdminUsersUnsubscribe.php', $postData);
 post($path . 'email/images', 'App/API/Emails/UploadImages.php');
 post($path . 'email/images/upload', 'App/API/Emails/UploadImages.php');
 post($path . 'email/images/upload/tinymce', 'App/API/Emails/UploadImagesTinyMce.php');

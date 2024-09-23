@@ -110,8 +110,7 @@ class AdministratorModel {
         ];
         $results =  $this->databaseService->executeQuery($query, $params);
         $user = $results->fetch(PDO::FETCH_ASSOC);
-        writeLog('AdministratorModel-verify-79', $user);
-        writeLog('AdministratorModel-verify-80', $password);
+  
 
         if ($user && password_verify($password, $user['password'])) {
             // Populate object with user data
@@ -120,7 +119,6 @@ class AdministratorModel {
             $this->last_name = $user['last_name'];
             $this->username = $user['username'];
             $this->password = $user['password'];
-            writeLog('AdministratorModel-verify-89', TRUE);
             return $this->id;
         }
         else{

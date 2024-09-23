@@ -8,6 +8,7 @@ import EmailSeriesTitles from '@/views/Emails/EmailSeriesTitles.vue';
 import LoginUser from '@/views/People/LoginUser.vue';
 import UnsubscribeUser from '@/views/People/UnsubscribeUser.vue';
 import UserChangeDetails from '@/views/People/UserChangeDetails.vue';
+import AdminUnsubscribeUsers from '@/views/People/AdminUnsubscribeUsers.vue';
 
 
 
@@ -61,6 +62,12 @@ const routes = [
     component: UserChangeDetails,
     meta: { requiresAuth: false },
   },
+  {
+    path: '/admin/unsubscribe', // Admin page to unsubscribe users  
+    name: 'AdminUnsubscribeUsers',
+    component: AdminUnsubscribeUsers,
+    meta: { requiresAuth: true },
+  }
   
   // Add more routes here
 ];

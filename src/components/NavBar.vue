@@ -46,7 +46,7 @@
         {
           name: 'People',
           items: [
-            { title: 'Person 1', path: '/people/1' },
+            { title: 'Unsubscribe Users', path: '/admin/unsubscribe' },
             { title: 'Person 2', path: '/people/2' },
             { title: 'Person 3', path: '/people/3' },
             { title: 'Person 4', path: '/people/4' },
