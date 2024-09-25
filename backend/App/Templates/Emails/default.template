@@ -60,6 +60,7 @@
         <img class="signature" alt="signature" src="{{signature}}">
         <br>
         <img class="full" src="{{author-bio}}">
+        <img src="{{tracking}}">
     </div>
     <div class="email-content">
         {{postscript}}

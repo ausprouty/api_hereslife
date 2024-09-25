@@ -54,7 +54,46 @@ class TractController {
         return $data;
     }
 
-
-    // Add more query methods as needed
+    public function getDistinctBilingualLang1() {
+        $query = "SELECT DISTINCT lang1 FROM hl_materials 
+            WHERE active = :active
+            AND category = :category";
+        $params = [':active' => 'YES', ':category' => 'Tracts'];
+        return $this->databaseService->executeQuery($query, $params)->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    public function getDistinctBilingualLang2($lang1) {
+        $query = "SELECT DISTINCT lang2 FROM hl_materials 
+            WHERE lang1 = :lang1 
+            AND active = :active AND category = :category";
+        $params = [':lang1' => $lang1, 
+            ':active' => 'YES', ':category' => 'Tracts'];
+        return $this->databaseService->executeQuery($query, $params)->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public function getDistinctBilingualAudience($lang1, $lang2) {
+        $query = "SELECT DISTINCT format FROM hl_materials 
+            WHERE lang1 = :lang1 AND lang2 = :lang2 
+            AND active = :active AND category = :category";
+        $params = [':lang1' => $lang1, ':lang2' => $lang2, 
+            ':active' => 'YES', ':category' => 'Tracts'];
+        return $this->databaseService->executeQuery($query, $params)->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public function getDistinctBilingualFormat($lang1, $lang2, $audience) {
+        $query = "SELECT DISTINCT format FROM hl_materials 
+            WHERE lang1 = :lang1 AND lang2 = :lang2 AND audience = :audience
+            AND active = :active AND category = :category";
+        $params = [':lang1' => $lang1, ':lang2' => $lang2, ':audience' => $audience,
+            ':active' => 'YES', ':category' => 'Tracts'];
+        return $this->databaseService->executeQuery($query, $params)->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    public function getDistinctBilingualContacts($lang1, $lang2, $audience, $format) {
+        $query = "SELECT DISTINCT contacts FROM hl_materials 
+            WHERE lang1 = :lang1 AND lang2 = :lang2 AND audience = :audience AND format = :format
+             AND active = :active AND category = :category";
+        $params = [':lang1' => $lang1, ':lang2' => $lang2, ':audience' => $audience, ':format' => $format, 
+            ':active' => 'YES', ':category' => 'Tracts'];
+        return $this->databaseService->executeQuery($query, $params)->fetchAll(PDO::FETCH_ASSOC);
+      
 }
 

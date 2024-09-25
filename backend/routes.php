@@ -10,11 +10,13 @@ get($path . 'cron/tips/first', 'App/API/Emails/QueFirstTips.php');
 get($path . 'cron/tips/next', 'App/API/Emails/QueNextTips.php');
 get($path . 'cron/emails/send', 'App/API/Emails/SendEmailFromQue.php');
 
+
 get($path . 'email/$id', 'App/API/Emails/GetEmail.php');
 get($path . 'email/ad/recent/$number', 'App/API/Emails/AddRecentTitles.php');
 get($path . 'email/blog/recent/$number', 'App/API/Emails/BlogRecentTitles.php');
 get($path . 'email/series/titles/$series', 'App/API/Emails/SeriesEmailTitles.php');
 get($path . 'email/series/$series/$sequence', 'App/API/Emails/SeriesEmailText.php');
+get($path . 'email/tracking/$champion_id/$email_id', 'App/API/Emails/EmailTrackOpen.php');
 get($path . 'email/view/$id', 'App/API/Emails/GetEmailView.php');
 get($path . 'import/champions', 'App/API/Import/ImportChampions.php');
 get($path . 'import/email/que', 'App/API/Import/ImportEmailQue.php');
@@ -28,6 +30,11 @@ get($path . 'spirit/text/$language', 'App/API/Materials/getSpiritText.php');
 get($path . 'spirit/titles', 'App/API/Materials/getSpiritTitles.php');
 get($path . 'test', 'App/API/Materials/getTractsToView.php');
 get($path . 'tracts/view', 'App/API/Materials/getTractsToView.php');
+get($path . 'tracts/distinct', 'App/API/Tracts/getTractsDistinctLanguage.php');
+get($path . 'tracts/distinct/$lang1', 'App/API/Tracts/getTractsDistinctLanguage2.php');
+get($path . 'tracts/distinct/$lang1/$lang2', 'App/API/Tracts/getTractsDistinctAudience.php');
+get($path . 'tracts/distinct/$lang1/$lang2/$audience', 'App/API/Tracts/getTractsDistinctFormat.php');
+get($path . 'tracts/distinct/$lang1/$lang2/$audience/$format', 'App/API/Tracts/getTractsDistinctContacts.php');
 
 post($path . 'admin/create', 'App/API/People/AdminCreate.php', $postData);
 post($path . 'admin/login', 'App/API/People/AdminLogin.php', $postData);

@@ -113,6 +113,10 @@ class EmailFormatService
     private function formatBody(){
         // Load the default template.
         $template = $this->getTemplate();
+        // Set the tracking code for the email
+        $tractingCode = $this->champion_id . '/' . $this->email_id .'/tracking.png-image';
+        $trackingRoute =  BACKEND_URL . '/email/tracking/' . $tractingCode;
+        $template = str_replace('{{tracking}}', $tractingCode, $template);
 
         // Replace placeholders in the template with actual content.
         $template = str_replace('{{subject}}', $this->subject, $template);
@@ -120,6 +124,7 @@ class EmailFormatService
         $template = str_replace('{{header}}', EMAIL_HEADERIMAGE, $template);
         $template = str_replace('{{signature}}', EMAIL_SIGNATURE, $template);
         $template = str_replace('{{author-bio}}', EMAIL_AUTHORBIO, $template);
+       
         $template = str_replace('{{postscript}}', $this->postscript, $template);
         $template = str_replace('{{hash}}', $this->generateUnsubscribeHash(), $template);
         $template = str_replace('{{cid}}', $this->champion_id, $template);
