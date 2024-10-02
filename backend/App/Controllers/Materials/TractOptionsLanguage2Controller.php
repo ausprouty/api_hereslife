@@ -5,7 +5,7 @@ use App\Services\Database\DatabaseService;
 use PDO;
 
 
-class TractOptionsLanguage1Controller {
+class TractOptionsLanguage2Controller {
     private $databaseService;
 
     public function __construct(DatabaseService $databaseService) {
@@ -36,9 +36,8 @@ class TractOptionsLanguage1Controller {
         $query = "SELECT DISTINCT lang2 FROM hl_materials 
                 WHERE active = :active
                 AND category = :category
-                AND lang1 = :lang1
                 ORDER BY lang2 ASC";
-            $params = [':active' => 'YES', ':category' => 'Tracts', ':lang1' => $lang1];
+            $params = [':active' => 'YES', ':category' => 'Tracts'];
             return $this->databaseService->executeQuery($query, $params)->fetchAll(PDO::FETCH_ASSOC);
     }
 

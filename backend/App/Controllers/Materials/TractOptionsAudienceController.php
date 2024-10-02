@@ -5,7 +5,7 @@ use App\Services\Database\DatabaseService;
 use PDO;
 
 
-class TractOptionsLanguage1Controller {
+class TractOptionsAudienceController {
     private $databaseService;
 
     public function __construct(DatabaseService $databaseService) {
@@ -16,8 +16,11 @@ class TractOptionsLanguage1Controller {
             WHERE active = :active
             AND category = :category
             AND format = :format
-            ORDER BY lang1 ASC";
-        $params = [':active' => 'YES', ':category' => 'Tracts', ':format' => 'BOOKLET'];
+            AND lang1 = :lang1
+            AND lang2 = :lang2
+            ORDER BY audience ASC";
+        $params = [':active' => 'YES', ':category' => 'Tracts', ':format' => 'BOOKLET',
+            ':lang1' => $lang1, ':lang2' => $lang2];
         return $this->databaseService->executeQuery($query, $params)->fetchAll(PDO::FETCH_ASSOC);
     }
     public function getDistinctAudienceBilingualPages($lang1, $lang2){
@@ -25,8 +28,11 @@ class TractOptionsLanguage1Controller {
             WHERE active = :active
             AND category = :category
             AND format = :format
-            ORDER BY lang1 ASC";
-        $params = [':active' => 'YES', ':category' => 'Tracts', ':format' => 'PAGE'];
+            ND lang1 = :lang1
+            AND lang2 = :lang2
+            ORDER BY audience ASC";
+        $params = [':active' => 'YES', ':category' => 'Tracts', ':format' => 'PAGE',
+            ':lang1' => $lang1, ':lang2' => $lang2];    
         return $this->databaseService->executeQuery($query, $params)->fetchAll(PDO::FETCH_ASSOC);
     }
     public function getDistinctAudienceMonolingualBooks($lang1){
@@ -35,8 +41,10 @@ class TractOptionsLanguage1Controller {
             AND category = :category
             AND format = :format
             AND lang2 = :lang2
-            ORDER BY lang1 ASC";
-        $params = [':active' => 'YES', ':category' => 'Tracts', ':format' => 'BOOKLET', :lang2 => 'NONE'];
+            AND lang1 = :lang1
+            ORDER BY audience ASC";
+        $params = [':active' => 'YES', ':category' => 'Tracts', ':format' => 'BOOKLET', :lang2 => 'NONE',
+            ':lang1' => $lang1];
         return $this->databaseService->executeQuery($query, $params)->fetchAll(PDO::FETCH_ASSOC);
     }
     public function getDistinctAudienceMonolingualPages($lang1){
@@ -45,25 +53,20 @@ class TractOptionsLanguage1Controller {
             AND category = :category
             AND format = :format
             AND lang2 = :lang2
-            ORDER BY lang1 ASC";
-        $params = [':active' => 'YES', ':category' => 'Tracts', ':format' => 'PAGE', :lang2 => 'NONE'];
+            AND lang1 = :lang1
+            ORDER BY audience ASC";
+        $params = [':active' => 'YES', ':category' => 'Tracts', ':format' => 'PAGE', :lang2 => 'NONE', 
+            ':lang1' => $lang1];
         return $this->databaseService->executeQuery($query, $params)->fetchAll(PDO::FETCH_ASSOC);
     }
     public function getDistinctAudience(){ 
         $query = "SELECT DISTINCT audience FROM hl_materials 
                 WHERE active = :active
                 AND category = :category
-                ORDER BY lang1 ASC";
+                ORDER BY audience ASC";
             $params = [':active' => 'YES', ':category' => 'Tracts'];
             return $this->databaseService->executeQuery($query, $params)->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getDistinctBilingualLang1() {
-        $query = "SELECT DISTINCT audience FROM hl_materials 
-            WHERE active = :active
-            AND category = :category
-            ORDER BY lang1 ASC";
-        $params = [':active' => 'YES', ':category' => 'Tracts'];
-        return $this->databaseService->executeQuery($query, $params)->fetchAll(PDO::FETCH_ASSOC);
-    }
+    
 }

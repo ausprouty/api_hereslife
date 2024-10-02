@@ -57,13 +57,3 @@ class TractOptionsLanguage1Controller {
             $params = [':active' => 'YES', ':category' => 'Tracts'];
             return $this->databaseService->executeQuery($query, $params)->fetchAll(PDO::FETCH_ASSOC);
     }
-
-    public function getDistinctBilingualLang1() {
-        $query = "SELECT DISTINCT lang1 FROM hl_materials 
-            WHERE active = :active
-            AND category = :category
-            ORDER BY lang1 ASC";
-        $params = [':active' => 'YES', ':category' => 'Tracts'];
-        return $this->databaseService->executeQuery($query, $params)->fetchAll(PDO::FETCH_ASSOC);
-    }
-}
