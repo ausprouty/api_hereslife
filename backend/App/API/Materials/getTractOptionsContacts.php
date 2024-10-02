@@ -14,14 +14,14 @@ switch ($tract_type) {
     case 'bilingual-pages':
         $data = $tractController->getDistinctContactsBilingualPages($lang1, $lang2, $audience, $pagesize);
         break;
-    case 'monolingual-tracts':
+    case 'monolingual-books':
         $data = $tractController->getDistinctContactsMonolingualBooks($lang1, $audience, $pagesize);
         break;
     case 'monolingual-pages':
         $data = $tractController->getDistinctContactsMonolingualPages($lang1,$audience, $pagesize);
         break;
     default:
-        $data = $tractController->getDistinctContacts($lang1, $lang2, $audience, $pagesize);
+        $data = []; // Return an empty array if the tract type is not recognized]
         break;
 }
 

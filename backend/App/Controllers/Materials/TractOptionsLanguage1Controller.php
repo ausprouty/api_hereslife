@@ -36,7 +36,7 @@ class TractOptionsLanguage1Controller {
             AND format = :format
             AND lang2 = :lang2
             ORDER BY lang1 ASC";
-        $params = [':active' => 'YES', ':category' => 'Tracts', ':format' => 'BOOKLET', :lang2 => 'NONE'];
+        $params = [':active' => 'YES', ':category' => 'Tracts', ':format' => 'BOOKLET', ':lang2' => 'NONE'];
         return $this->databaseService->executeQuery($query, $params)->fetchAll(PDO::FETCH_ASSOC);
     }
     public function getDistinctLang1MonolingualPages(){
@@ -46,7 +46,7 @@ class TractOptionsLanguage1Controller {
             AND format = :format
             AND lang2 = :lang2
             ORDER BY lang1 ASC";
-        $params = [':active' => 'YES', ':category' => 'Tracts', ':format' => 'PAGE', :lang2 => 'NONE'];
+        $params = [':active' => 'YES', ':category' => 'Tracts', ':format' => 'PAGE', ':lang2' => 'NONE'];
         return $this->databaseService->executeQuery($query, $params)->fetchAll(PDO::FETCH_ASSOC);
     }
     public function getDistinctLang1(){ 
@@ -57,3 +57,4 @@ class TractOptionsLanguage1Controller {
             $params = [':active' => 'YES', ':category' => 'Tracts'];
             return $this->databaseService->executeQuery($query, $params)->fetchAll(PDO::FETCH_ASSOC);
     }
+}

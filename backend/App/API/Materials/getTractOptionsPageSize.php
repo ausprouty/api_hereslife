@@ -14,14 +14,14 @@ switch ($tract_type) {
     case 'bilingual-pages':
         $data = $tractController->getDistinctPageSizeBilingualPages($lang1, $lang2, $audience);
         break;
-    case 'monolingual-tracts':
+    case 'monolingual-books':
         $data = $tractController->getDistinctPageSizeMonolingualBooks($lang1, $audience);
         break;
     case 'monolingual-pages':
         $data = $tractController->getDistinctPageSizeMonolingualPages($lang1, $audience);
         break;
     default:
-        $data = $tractController->getDistinctPageSize($lang1, $lang2, $audience);
+        $data = []; // Return an empty array if the tract type is not recognized]   
         break;
 }
 

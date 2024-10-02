@@ -28,7 +28,7 @@ class TractOptionsAudienceController {
             WHERE active = :active
             AND category = :category
             AND format = :format
-            ND lang1 = :lang1
+            AND lang1 = :lang1
             AND lang2 = :lang2
             ORDER BY audience ASC";
         $params = [':active' => 'YES', ':category' => 'Tracts', ':format' => 'PAGE',
@@ -43,7 +43,7 @@ class TractOptionsAudienceController {
             AND lang2 = :lang2
             AND lang1 = :lang1
             ORDER BY audience ASC";
-        $params = [':active' => 'YES', ':category' => 'Tracts', ':format' => 'BOOKLET', :lang2 => 'NONE',
+        $params = [':active' => 'YES', ':category' => 'Tracts', ':format' => 'BOOKLET', ':lang2' => 'NONE',
             ':lang1' => $lang1];
         return $this->databaseService->executeQuery($query, $params)->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -55,7 +55,7 @@ class TractOptionsAudienceController {
             AND lang2 = :lang2
             AND lang1 = :lang1
             ORDER BY audience ASC";
-        $params = [':active' => 'YES', ':category' => 'Tracts', ':format' => 'PAGE', :lang2 => 'NONE', 
+        $params = [':active' => 'YES', ':category' => 'Tracts', ':format' => 'PAGE', ':lang2' => 'NONE', 
             ':lang1' => $lang1];
         return $this->databaseService->executeQuery($query, $params)->fetchAll(PDO::FETCH_ASSOC);
     }

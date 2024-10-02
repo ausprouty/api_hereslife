@@ -14,7 +14,7 @@ switch ($tract_type) {
     case 'bilingual-pages':
         $data = $tractController->getDistinctLang1BilingualPages();
         break;
-    case 'monolingual-tracts':
+    case 'monolingual-books':
         $data = $tractController->getDistinctLang1MonolingualBooks();
         break;
     case 'monolingual-pages':
