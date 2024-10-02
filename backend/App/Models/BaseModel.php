@@ -71,35 +71,40 @@ class BaseModel
      * @throws Exception If no valid columns are defined or no fields are provided for update.
      */
     public function update($id, $data)
-    {
-        // Get valid columns for this model
-        $validColumns = $this->getValidColumns();
-        if (empty($validColumns)) {
-            throw new Exception('No valid columns defined for this model.');
-        }
+{
+    // Get valid columns for this model
+    $validColumns = $this->getValidColumns();
+    if (empty($validColumns)) {
+        throw new Exception('No valid columns defined for this model.');
+    }
 
-        // Initialize fields array and params for the query
-        $fields = [];
-        $params = [':id' => $id];
+    // Initialize fields array and params for the query
+    $fields = [];
+    $params = [':id' => $id];
 
-        // Filter the data to only include valid columns
-        foreach ($data as $key => $value) {
-            if (in_array($key, $validColumns)) {
+    // Filter the data to only include valid columns
+    foreach ($data as $key => $value) {
+        if (in_array($key, $validColumns)) {
+            if ($value === null) {
+                $fields[] = "$key = NULL";
+            } else {
                 $fields[] = "$key = :$key";
                 $params[":$key"] = $value;
             }
         }
-
-        // Check if there are any valid fields to update
-        if (empty($fields)) {
-            throw new Exception('No valid fields to update.');
-        }
-
-        // Construct the query using the dynamically built fields
-        $query = "UPDATE {$this->getTableName()} 
-                  SET " . implode(', ', $fields) . " 
-                  WHERE id = :id";
-
-        return $this->databaseService->executeUpdate($query, $params);
     }
+
+    // Check if there are any valid fields to update
+    if (empty($fields)) {
+        throw new Exception('No valid fields to update.');
+    }
+
+    // Construct the query using the dynamically built fields
+    $query = "UPDATE {$this->getTableName()} 
+              SET " . implode(', ', $fields) . " 
+              WHERE id = :id";
+
+    return $this->databaseService->executeUpdate($query, $params);
+}
+
 }

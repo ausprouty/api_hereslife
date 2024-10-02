@@ -30,11 +30,11 @@ get($path . 'spirit/text/$language', 'App/API/Materials/getSpiritText.php');
 get($path . 'spirit/titles', 'App/API/Materials/getSpiritTitles.php');
 get($path . 'test', 'App/API/Materials/getTractsToView.php');
 get($path . 'tracts/view', 'App/API/Materials/getTractsToView.php');
-get($path . 'tracts/distinct', 'App/API/Tracts/getTractsDistinctLanguage.php');
-get($path . 'tracts/distinct/$lang1', 'App/API/Tracts/getTractsDistinctLanguage2.php');
-get($path . 'tracts/distinct/$lang1/$lang2', 'App/API/Tracts/getTractsDistinctAudience.php');
-get($path . 'tracts/distinct/$lang1/$lang2/$audience', 'App/API/Tracts/getTractsDistinctFormat.php');
-get($path . 'tracts/distinct/$lang1/$lang2/$audience/$format', 'App/API/Tracts/getTractsDistinctContacts.php');
+get($path . 'tracts/options/lang1/$tract_type', 'App/API/Materials/getTractOptionsLanguage1.php');
+get($path . 'tracts/options/lang2/$tract_type/$lang1', 'App/API/Materials/getTractOptionsLanguage2.php');
+get($path . 'tracts/options/audience/$tract_type/$tract_type/$lang1/$lang2', 'App/API/Materials/getTractOptionsAudience.php');
+get($path . 'tracts/options/format/$tract_type/$lang1/$lang2/$audience', 'App/API/Materials/getTractOptionsFormat.php');
+get($path . 'tracts/options/contacts/$tract_type/$lang1/$lang2/$audience/$format', 'App/API/Materials/getTractOptionsContacts.php');
 
 post($path . 'admin/create', 'App/API/People/AdminCreate.php', $postData);
 post($path . 'admin/login', 'App/API/People/AdminLogin.php', $postData);

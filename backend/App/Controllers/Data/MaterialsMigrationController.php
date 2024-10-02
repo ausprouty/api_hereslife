@@ -21,11 +21,12 @@ class MaterialsMigrationController {
 
         foreach ($legacyData as &$material) {
             $this->convertTimestamps($material);
+            $paper_size = $this->getPaperSize($material);
 
             // Insert the converted data into the new database
             $this->newDbService->executeUpdate(
-                "INSERT INTO hl_materials (id, title, tips, foreign_title_1, foreign_title_2, lang1, lang2, format, audience, contact, filename, category, downloads, active, active_date, size, print_size, ordered) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                "INSERT INTO hl_materials (id, title, tips, foreign_title_1, foreign_title_2, lang1, lang2, format, audience, contact, filename, category, downloads, active, active_date, size, print_size, paper_size, ordered) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?)",
                 [
                     $material['id'],
                     $material['title'],
@@ -44,6 +45,7 @@ class MaterialsMigrationController {
                     $material['active_date'],
                     $material['size'],
                     $material['print_size'],
+                    $paper_size,
                     $material['ordered']
                 ]
             );
@@ -55,5 +57,21 @@ class MaterialsMigrationController {
 
     protected function convertTimestamps(&$material) {
         $material['active_date'] = $material['active_date'] ? TimeService::timestampToDate($material['active_date']) : NULL;
+    }
+
+    protected function getPaperSize($material) {
+        if ($material['category'] !== 'Tracts') {
+            return NULL;
+        }
+        if ($material['format'] != 'BOOKLET') {
+            return NULL;
+        }
+        if (in_array($material['contact'], ['CA', 'UC', 'US', 'UW'])) {
+            return 'Letter';
+        }
+        else {
+            return 'A4';
+        }
+        
     }
 }
