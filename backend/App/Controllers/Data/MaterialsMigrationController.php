@@ -22,6 +22,8 @@ class MaterialsMigrationController {
         foreach ($legacyData as &$material) {
             $this->convertTimestamps($material);
             $paper_size = $this->getPaperSize($material);
+            $location = $this->getLocationName($material['contact']);
+            $audience = $this->updateAudience($material['audience']);
 
             // Insert the converted data into the new database
             $this->newDbService->executeUpdate(
@@ -36,8 +38,8 @@ class MaterialsMigrationController {
                     $material['lang1'],
                     $material['lang2'],
                     $material['format'],
-                    $material['audience'],
-                    $material['contact'],
+                    $audience,
+                    $location,
                     $material['filename'],
                     $material['category'],
                     $material['downloads'],
@@ -74,4 +76,48 @@ class MaterialsMigrationController {
         }
         
     }
+    protected function updateAudience($audience) {
+       if($audience == 'Traditional'){
+         return 'Standard';
+       }
+       else{
+        return $audience;
+       }
+    }
+
+   protected function getLocationName($location) {
+        $new = [
+            '' => 'None',
+            'AF' => 'Africa',
+            'AU' => 'Australia',
+            'BR' => 'Brazil',
+            'CA' => 'Canada',
+            'CH' => 'China',
+            'CM' => 'Cambodia',
+            'CY' => 'Cyprus',
+            'EU' => 'Europe',
+            'FR' => 'France',
+            'GE' => 'Germany',
+            'ID' => 'Indonesia',
+            'KO' => 'South Korea',
+            'NO' => 'None',
+            'NZ' => 'New Zealand',
+            'PH' => 'Philippines',
+            'PN' => 'Pakistan',
+            'RS' => 'South Africa',
+            'SA' => 'South America',
+            'TH' => 'Thailand',
+            'UC' => 'Campus Ministry (US)',
+            'UK' => 'United Kingdom',
+            'UP' => 'Peace Project (US)',
+            'US' => 'United States',
+            'UW' => 'US (something)',  // Unsure, placeholder
+            'WB' => 'International'    // WB for International
+        ];
+        if (!array_key_exists($location, $new)) {
+            return 'None';
+        }
+        return $new[$location];
+   }
+        
 }

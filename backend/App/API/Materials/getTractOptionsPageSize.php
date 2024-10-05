@@ -8,16 +8,16 @@ $databaseService = new DatabaseService($database = 'standard'); // Connect to th
 $tractController = new TractOptionsPageSizeController($databaseService);
 
 switch ($tract_type) {
-    case 'bilingual-books':
+    case 'bilingual-book':
         $data = $tractController->getDistinctPageSizeBilingualBooks($lang1, $lang2, $audience);
         break;
-    case 'bilingual-pages':
+    case 'bilingual-page':
         $data = $tractController->getDistinctPageSizeBilingualPages($lang1, $lang2, $audience);
         break;
-    case 'monolingual-books':
+    case 'monolingual-book':
         $data = $tractController->getDistinctPageSizeMonolingualBooks($lang1, $audience);
         break;
-    case 'monolingual-pages':
+    case 'monolingual-page':
         $data = $tractController->getDistinctPageSizeMonolingualPages($lang1, $audience);
         break;
     default:

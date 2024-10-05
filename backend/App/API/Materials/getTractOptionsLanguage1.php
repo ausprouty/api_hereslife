@@ -8,16 +8,16 @@ $databaseService = new DatabaseService($database = 'standard'); // Connect to th
 $tractController = new TractOptionsLanguage1Controller($databaseService);
 
 switch ($tract_type) {
-    case 'bilingual-books':
+    case 'bilingual-book':
         $data = $tractController->getDistinctLang1BilingualBooks();
         break;
-    case 'bilingual-pages':
+    case 'bilingual-page':
         $data = $tractController->getDistinctLang1BilingualPages();
         break;
-    case 'monolingual-books':
+    case 'monolingual-book':
         $data = $tractController->getDistinctLang1MonolingualBooks();
         break;
-    case 'monolingual-pages':
+    case 'monolingual-page':
         $data = $tractController->getDistinctLang1MonolingualPages();
         break;
     default:

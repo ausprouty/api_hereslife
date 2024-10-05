@@ -8,10 +8,10 @@ $databaseService = new DatabaseService($database = 'standard'); // Connect to th
 $tractController = new TractOptionsLanguage2Controller($databaseService);
 writeLog('getTractOptionsLanguage2-9' , $tract_type . ' ' . $lang1);
 switch ($tract_type) {
-    case 'bilingual-books':
+    case 'bilingual-book':
         $data = $tractController->getDistinctLang2BilingualBooks($lang1);
         break;
-    case 'bilingual-pages':
+    case 'bilingual-page':
         $data = $tractController->getDistinctLang2BilingualPages($lang1);
         break;
     default:

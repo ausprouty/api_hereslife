@@ -1,0 +1,32 @@
+<?php
+
+
+use App\Services\Database\DatabaseService;
+use App\Controllers\Materials\TractOptionsFilenameController;
+
+$databaseService = new DatabaseService($database = 'standard'); // Connect to the 'standard' database for tract data<?php
+
+$tractController = new TractOptionsFilenameController($databaseService);
+
+switch ($tract_type) {
+    case 'bilingual-book':
+        $data = $tractController->getDistinctFilenameBilingualBooks($lang1, $lang2, $audience, $pagesize, $contact);
+        break;
+    case 'bilingual-page':
+        $data = $tractController->getDistinctFilenameBilingualPages($lang1, $lang2, $audience, $pagesize, $contact);
+        break;
+    case 'monolingual-book':
+        $data = $tractController->getDistinctFilenameMonolingualBooks($lang1, $audience, $pagesize, $contact);
+        break;
+    case 'monolingual-page':
+        $data = $tractController->getDistinctFilenameMonolingualPages($lang1,$audience, $pagesize, $contact);
+        break;
+    default:
+        $data = []; // Return an empty array if the tract type is not recognized]
+        break;
+}
+
+writeLog('getTractOptionsFilename-28' , $data);
+// Output the response as JSON
+header('Content-Type: application/json');
+echo json_encode($data);

@@ -34,9 +34,9 @@ get($path . 'tracts/view', 'App/API/Materials/getTractsToView.php');
 get($path . 'tracts/options/lang1/$tract_type', 'App/API/Materials/getTractOptionsLanguage1.php');
 get($path . 'tracts/options/lang2/$tract_type/$lang1', 'App/API/Materials/getTractOptionsLanguage2.php');
 get($path . 'tracts/options/audience/$tract_type/$lang1/$lang2', 'App/API/Materials/getTractOptionsAudience.php');
-get($path . 'tracts/options/pagesize/$tract_type/$lang1/$lang2/$audience', 'App/API/Materials/getTractOptionsPageSize.php');
+get($path . 'tracts/options/papersize/$tract_type/$lang1/$lang2/$audience', 'App/API/Materials/getTractOptionsPageSize.php');
 get($path . 'tracts/options/contacts/$tract_type/$lang1/$lang2/$audience/$pagesize', 'App/API/Materials/getTractOptionsContacts.php');
-
+get($path . 'tracts/options/filename/$tract_type/$lang1/$lang2/$audience/$pagesize/$contact', 'App/API/Materials/getTractOptionsFilename.php');
 post($path . 'admin/create', 'App/API/People/AdminCreate.php', $postData);
 post($path . 'admin/login', 'App/API/People/AdminLogin.php', $postData);
 post($path . 'admin/users/unsubscribe', 'App/API/People/AdminUsersUnsubscribe.php', $postData);
