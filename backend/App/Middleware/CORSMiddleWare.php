@@ -51,17 +51,14 @@ class CORSMiddleware {
                 header("Access-Control-Allow-Headers: Content-Type, Authorization");
                 header("Access-Control-Allow-Credentials: true");
 
-                // Log the allowed origin
-                writeLog('CORSMiddleware-12', 'I set the headers for allowed origin: ' . $origin);
             } else {
                 // Log the denied origin
-                writeLogError('CORSMiddleware-12', 'Origin not allowed: ' . $origin);
+                writeLogError('CORSMiddleware-58', 'Origin not allowed: ' . $origin);
             }
         } else {
             // Log the absence of an Origin header (non-CORS requests)
             writeLogError('CORSMiddleware-12', 'No Origin header present in the request.');
         }
-
         // Proceed to the next middleware or application logic
         return $next($request);
     }

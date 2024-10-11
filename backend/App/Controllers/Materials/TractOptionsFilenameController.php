@@ -12,7 +12,7 @@ class TractOptionsFilenameController {
         $this->databaseService = $databaseService;
     }
     public function getDistinctFilenameBilingualBooks($lang1, $lang2, $audience, $pagesize , $contact){
-        $query = "SELECT DISTINCT contact FROM hl_materials 
+        $query = "SELECT DISTINCT filename FROM hl_materials 
             WHERE active = :active
             AND category = :category
             AND format = :format
@@ -28,7 +28,7 @@ class TractOptionsFilenameController {
         return $this->databaseService->executeQuery($query, $params)->fetchAll(PDO::FETCH_ASSOC);
     }
     public function getDistinctFilenameBilingualPages($lang1, $lang2, $audience, $pagesize , $contact){
-        $query = "SELECT DISTINCT contact FROM hl_materials 
+        $query = "SELECT DISTINCT filename FROM hl_materials 
             WHERE active = :active
             AND category = :category
             AND format = :format
@@ -44,7 +44,7 @@ class TractOptionsFilenameController {
         return $this->databaseService->executeQuery($query, $params)->fetchAll(PDO::FETCH_ASSOC);
     }
     public function getDistinctFilenameMonolingualBooks($lang1, $audience, $pagesize , $contact){
-        $query = "SELECT DISTINCT contact FROM hl_materials 
+        $query = "SELECT DISTINCT filename FROM hl_materials 
             WHERE active = :active
             AND category = :category
             AND format = :format
@@ -56,11 +56,11 @@ class TractOptionsFilenameController {
             ORDER BY contact ASC";
         $params = [':active' => 'YES', ':category' => 'Tracts', ':format' => 'BOOKLET', 
             ':lang2' => 'NONE', ':lang1' => $lang1, 
-            ':audience' => $audience, ':pagesize' => $pagesize], ':contact' => $contact; 
+            ':audience' => $audience, ':pagesize' => $pagesize, ':contact' => $contact]; 
         return $this->databaseService->executeQuery($query, $params)->fetchAll(PDO::FETCH_ASSOC);
     }
     public function getDistinctFilenameMonolingualPages($lang1, $audience, $pagesize , $contact){
-        $query = "SELECT DISTINCT contact FROM hl_materials 
+        $query = "SELECT DISTINCT filename FROM hl_materials 
             WHERE active = :active
             AND category = :category
             AND format = :format

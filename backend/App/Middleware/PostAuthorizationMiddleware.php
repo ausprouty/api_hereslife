@@ -55,9 +55,9 @@ class PostAuthorizationMiddleware {
             $authorized = AdminAuthorizationService::checkAuthorizationHeader();
             if (!$authorized) {
                 // Log unauthorized access and send 401 status
-                error_log('not authorized');
+                error_log('not authorized based on authorization header');
                 http_response_code(401);
-                return 'not authorized';
+                return 'not authorized based on authorization header';
             }
 
             // If authorized, retrieve the sanitized data set
