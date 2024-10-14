@@ -7,18 +7,42 @@ use Exception;
 
 class ChampionRepository extends BaseRepository
 {
+    private function isActive($email){
+        // Check if email is null, empty, or contains only spaces
+        if (is_null($email) || trim($email) === '') {
+            return false;
+        }
+        
+        // Check if email contains '!'
+        if (strpos($email, '!') !== false) {
+            return false;
+        }
+        
+        // Return true if all validations pass
+        return true;
+    }
+        
    
     public function getCidByEmail($email)
-    {
+    { 
+        writeLog('ChampionRepository-28', $email);
+        if ($this->isActive($email) === false) {
+            return null;
+        }
         $query = "SELECT cid FROM hl_champions WHERE email = :email LIMIT 1";
         $params = [':email' => $email];
-
-        return $this->databaseService->fetchSingleValue($query, $params)['cid'] ?? null;
+        writeLog('ChampionRepository-28', $email);
+        return $this->databaseService->fetchSingleValue($query, $params) ?? null;
     }
+
+    
 
     // Find a champion by email
     public function findByEmail(string $email): ?ChampionModel
-    {
+    { 
+        if ($this->isActive($email) === false) {
+            return null;
+        }
         $query = "SELECT * FROM " . $this->getTableName() . " WHERE email = :email LIMIT 1";
         $params = [':email' => $email];
 
@@ -29,7 +53,6 @@ class ChampionRepository extends BaseRepository
             if ($data) {
                 return new ChampionModel($data); // Instantiate ChampionModel with the fetched data
             }
-
             return null;
         } catch (Exception $e) {
             writeLogError('ChampionRepository-findByEmail', $e->getMessage());

@@ -27,12 +27,14 @@ if (!$userAuthorizationService->verifyWordpressNonce($postData['wpnonce'], $post
     echo json_encode($response);
     exit;
 }
+writeLog('UserVerify-30', $postData['email']);
 $cid = $championRepository->getCidByEmail($postData['email']);
 // Set content type to JSON
+writeLog('UserVerify-32', $cid);
 header('Content-Type: application/json');
 $response = [
     'status' => 'success',
-    'cid' => $cid
+    'champion' => $cid
 ];
 // Output the response in JSON format
 echo json_encode($response);
