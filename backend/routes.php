@@ -50,7 +50,7 @@ post($path . 'email/series/text/update', 'App/API/Emails/SeriesEmailTextUpdate.p
 post($path . 'materials/download', 'App/API/Materials/DownloadMaterialsUpdateUser.php', $postData);
 post($path . 'user/unsubscribe', 'App/API/People/UserUnsubscribe.php', $postData);
 
-post($path . '/user/mailinglist/info', 'App/API/Emails/UserMailingListSubscriptions.php', $postData);
+post($path . 'user/mailinglist/info', 'App/API/Emails/UserMailingListSubscriptions.php', $postData);
 post($path . 'user/update', 'App/API/People/UserUpdate.php', $postData);
 post($path . 'user/verify', 'App/API/People/UserVerify.php', $postData);
 if (ENVIRONMENT == 'local'){
