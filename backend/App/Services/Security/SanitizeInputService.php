@@ -13,7 +13,7 @@ class SanitizeInputService
     {
         $sanitized = array();
         $sanitizedMailLists = array(); // Initialize the array here
-        writeLogDebug("PostInputModel-17", $data);
+        writeLog-16("SanitizeInputService-17", $data);
 
         foreach ($data as $name => $value) {
             if (preg_match('/^mail_lists\[[^\]]+\]$/', $name)) {

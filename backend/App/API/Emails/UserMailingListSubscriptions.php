@@ -1,5 +1,5 @@
 <?php
-
+writeLog('UserMailingListSubscriptions-22', 'hit');
 // Import necessary classes
 use App\Controllers\Emails\EmailSubscriptionInfoController;
 use App\Repositories\ChampionRepository;
@@ -27,6 +27,7 @@ writeLog('UserMailingListSubscriptions-20', $postData);
 header('Content-Type: application/json');
 if (!$userAuthorizationService->verifyWordpressNonce($postData['wpnonce'], $postData['action'])) {
     // If the nonce is invalid, return an error
+    writeLog('UserMailingListSubscriptions-30', 'Invalid nonce.');
     $response = [
         'status' => 'error',
         'message' => 'Invalid nonce.'
@@ -35,6 +36,7 @@ if (!$userAuthorizationService->verifyWordpressNonce($postData['wpnonce'], $post
     exit;
 }
 if (!isset($postData['cid'] && !isset($postData['email'] )) {
+    writeLog('UserMailingListSubscriptions-38', 'Email or Cid is required.');
     $response = [
         'status' => 'error',
         'message' => 'Email or Cid is required.'
@@ -45,6 +47,7 @@ if (!isset($postData['cid'] && !isset($postData['email'] )) {
 if (!isset($postData['cid']){ 
     $cid = $championRepository->getCidByEmail($postData['email']);
     if ($cid == NULL){
+        writeLog('UserMailingListSubscriptions-47', 'Champion not found.');
         $response = [
             'status' => 'success',
             'champion' => $cid
@@ -54,10 +57,11 @@ if (!isset($postData['cid']){
     }
     $postData['cid'] = $cid;
 }
+writeLog('UserMailingListSubscriptions-60', $postData['cid']);
 
 $userMailingListInfo = $emailSubscriptionInfoController->getUserMailingListInfo($postData['cid']);
 // Set content type to JSON
-writeLog('UserMailingListSubscriptions-54', $userMailingListInfo);
+writeLog('UserMailingListSubscriptions-64', $userMailingListInfo);
 
 $response = [
     'status' => 'success',

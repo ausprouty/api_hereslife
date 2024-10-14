@@ -13,39 +13,31 @@ class PostInputController
     public function __construct(SanitizeInputService $sanitizeInputService)
     {
         $this->sanitizeInputService = $sanitizeInputService;
-        writeLog('PostInputController-20', 'started');
         $this->handlePost();
     }
 
     private function handlePost(): array
     {
-        writeLog('PostInputController-26', 'handling post');
-        writeLog('PostInputController-27', $_POST);
+
         if ($this->isJsonRequest()) {
-            writeLog('PostInputController-28', 'json request');
             $json = file_get_contents("php://input");
             $data = json_decode($json, true);
 
             // Assign to postData only if data is not null
             $this->postData = isset($data['data']) ? $data['data'] : ($data ?? []);
 
-        
         } // this is the way VueJS sends form data
         elseif (isset($_POST['formData']) && is_array($_POST['formData'])) {
-            writeLog('PostInputController-35', 'form data');
             $this->postData = [];
             foreach ($_POST['formData'] as $field) {
                 if (isset($field['name']) && isset($field['value'])) {
                     $this->postData[$field['name']] = $field['value'];
                 }
             }
-            writeLog('PostInputController-42', $this->postData);
         } 
         // this is the way WordPress sends form data
         elseif (isset($_POST)) {
-            writeLog('PostInputController-35', 'form data');
             $this->postData = $_POST;
-            writeLog('PostInputController-53', $this->postData);
         }
         else {
             // If no form data is present

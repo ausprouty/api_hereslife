@@ -87,7 +87,7 @@ class UserAuthorizationService
         if ($nonce === $previousNonce) {
             return true; // Nonce is still valid within the expiration time window
         }
-    
+        writeLogDebug('UserAuthorizationService-94', 'Invalid nonce.'); 
         return false; // Nonce is invalid
     }
     
