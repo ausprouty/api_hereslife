@@ -1,13 +1,11 @@
 <?php
-writeLog('UserMailingListSubscriptions-22', 'hit');
+
 // Import necessary classes
 use App\Controllers\Emails\EmailSubscriptionInfoController;
 use App\Repositories\ChampionRepository;
 use App\Repositories\EmailSeriesMemberRepository;
 use App\Services\Database\DatabaseService;
 use App\Services\Security\UserAuthorizationService;
-
-
 
 /**
  * Initiator script verifying that user exists 
@@ -22,9 +20,7 @@ $userAuthorizationService = new UserAuthorizationService($championRepository);  
 $emailSeriesMemberRepository = new EmailSeriesMemberRepository($databaseService);   
 $emailSubscriptionInfoController = new EmailSubscriptionInfoController( $championRepository, $emailSeriesMemberRepository);
 
-// Controller to handle subscription actions
-writeLog('UserMailingListSubscriptions-20', $postData);
-header('Content-Type: application/json');
+
 if (!$userAuthorizationService->verifyWordpressNonce($postData['wpnonce'], $postData['action'])) {
     // If the nonce is invalid, return an error
     writeLog('UserMailingListSubscriptions-30', 'Invalid nonce.');
@@ -35,7 +31,7 @@ if (!$userAuthorizationService->verifyWordpressNonce($postData['wpnonce'], $post
     echo json_encode($response);
     exit;
 }
-if (!isset($postData['cid'] && !isset($postData['email'] )) {
+if (!isset($postData['cid']) && !isset($postData['email'] )) {
     writeLog('UserMailingListSubscriptions-38', 'Email or Cid is required.');
     $response = [
         'status' => 'error',
@@ -44,14 +40,14 @@ if (!isset($postData['cid'] && !isset($postData['email'] )) {
     echo json_encode($response);
     exit;
 }
-if (!isset($postData['cid']){ 
+if (!isset($postData['cid'])){ 
     $cid = $championRepository->getCidByEmail($postData['email']);
     if ($cid == NULL){
-        writeLog('UserMailingListSubscriptions-47', 'Champion not found.');
         $response = [
             'status' => 'success',
-            'champion' => $cid
+            'champion' => 'NULL'
         ];
+        writeLog('UserMailingListSubscriptions-61', json_encode($response));
         echo json_encode($response);
         exit;
     }

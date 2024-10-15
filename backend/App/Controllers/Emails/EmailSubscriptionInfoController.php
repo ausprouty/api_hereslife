@@ -14,9 +14,9 @@ class EmailSubscriptionInfoController {
         $this->emailSeriesMemberRepository = $emailSeriesMemberRepository;
     }
 
-    public function getChampionInfo($championId) {
+    public function getUserMailingListInfo($championId) {
         // Fetch the complete Champion record
-        $champion = $this->championRepository->findById($championId);
+        $champion = $this->championRepository->findByCid($championId);
 
         if (!$champion) {
             // Handle the case where the Champion is not found
@@ -25,12 +25,12 @@ class EmailSubscriptionInfoController {
 
         // Extract only the required fields
         $trimmedChampion = [
-            'cid' => $champion->cid,
-            'first_name' => $champion->first_name,
-            'state' => $champion->state,
-            'country' => $champion->country,
-            'email' => $champion->email,
-            'gender' => $champion->gender,
+            'cid' => $championId,
+            'first_name' => $champion->getFirstName(),
+            'state' => $champion->getState(),
+            'country' => $champion->getCountry(),
+            'email' => $champion->getEmail(),
+            'gender' => $champion->getGender(),
             'mailing_lists' => $this->getEmailLists($championId)
         ];
 
@@ -39,7 +39,7 @@ class EmailSubscriptionInfoController {
     }
 
     private function getEmailLists($cid){
-        return $emailSeriesMemberRepository->getListsForMember($cid)
+        return $this->emailSeriesMemberRepository->getListsForMember($cid);
     }
 }
     
