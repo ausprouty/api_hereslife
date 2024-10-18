@@ -3,13 +3,14 @@
 namespace App\Controllers\Materials;
 
 use App\Models\Materials\DownloadModel;
+use App\Services\Database\DatabaseService;
 use DateTime;
 
 class DownloadController {
     private DownloadModel $downloadModel;
-    private string $database;
+    private DatabaseService $database;
 
-    public function __construct(DownloadModel $downloadModel, string $database = 'standard') {
+    public function __construct(DownloadModel $downloadModel, DatabaseService $database) {
         $this->downloadModel = $downloadModel;
         $this->database = $database;
     }

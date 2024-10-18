@@ -17,7 +17,6 @@ if ($_SERVER['SERVER_NAME'] === 'localhost') {
     ini_set('display_errors', 0);
 }
 
-// Include necessary files
 
 require_once __DIR__ . '/Vendor/autoload.php';
 use App\Controllers\PostInputController;

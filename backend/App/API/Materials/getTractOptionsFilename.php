@@ -24,7 +24,7 @@ switch ($tract_type) {
         $data = []; // Return an empty array if the tract type is not recognized
         break;
 }
-
+// data should be in form of array {title: 'title', filename: 'filename'}   
 writeLog('getTractOptionsFilename-28', $data);
 
 // Output the response as JSON

@@ -47,8 +47,9 @@ class UserMaterialService {
 
         // Find the material ID and manage download
         $materialID = $this->processMaterial($data);
-        writeLog('downloadMaterialsUpdateUser-34', $materialID);
+        writeLog('downloadMaterialsUpdateUser-50', $materialID);
         if (!$materialID) {
+            writeLog('downloadMaterialsUpdateUser-52', $data);
             return $this->returnError('File not found');
         }
 

@@ -91,9 +91,10 @@ class ChampionRepository extends BaseRepository
 
     // Save the champion model (insert or update based on whether cid exists)
     public function save(ChampionModel $champion)
-    {
+    {   
+        writeLog('ChampionRepository-94', $champion->toArray());
         if ($champion->getCid()) {
-            $this->update($champion);
+            $this->update($champion->getCid(), $champion->toArray());
         } else {
             $this->insert($champion);
         }

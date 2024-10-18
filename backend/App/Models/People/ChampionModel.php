@@ -134,4 +134,34 @@ class ChampionModel
 
     public function getLastEmailDate() { return $this->last_email_date; }
     public function setLastEmailDate($last_email_date) { $this->last_email_date = $last_email_date; }
+
+    // Method to convert the object to an associative array
+    public function toArray()
+    {
+        return [
+            'cid' => $this->getCid(),
+            'first_name' => $this->getFirstName(),
+            'surname' => $this->getSurname(),
+            'title' => $this->getTitle(),
+            'organization' => $this->getOrganization(),
+            'address' => $this->getAddress(),
+            'suburb' => $this->getSuburb(),
+            'state' => $this->getState(),
+            'postcode' => $this->getPostcode(),
+            'country' => $this->getCountry(),
+            'phone' => $this->getPhone(),
+            'sms' => $this->getSms(),
+            'email' => $this->getEmail(),
+            'gender' => $this->getGender(),
+            'double_opt_in_date' => $this->getDoubleOptInDate(),
+            'first_email_date' => $this->getFirstEmailDate(),
+            'last_open_date' => $this->getLastOpenDate(),
+            'consider_dropping_date' => $this->getConsiderDroppingDate(),
+            'first_download_date' => $this->getFirstDownloadDate(),
+            'last_download_date' => $this->getLastDownloadDate(),
+            'last_email_date' => $this->getLastEmailDate(),
+        ];
+    }
+
+
 }

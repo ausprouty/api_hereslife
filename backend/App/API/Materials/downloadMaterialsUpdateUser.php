@@ -1,11 +1,14 @@
 <?php
 
+
 use App\Controllers\Materials\DownloadController;
 use App\Controllers\Materials\MaterialController;
 use App\Controllers\People\ChampionController;
+use App\Models\Materials\MaterialModel;
 use App\Models\Materials\DownloadModel;
 use App\Repositories\ChampionRepository;
-use App\Services\UserMaterialService;
+use App\Services\Database\DatabaseService;
+use App\Services\Materials\UserMaterialService;
 use App\Utilities\RequestValidator;
 
 /**
@@ -22,16 +25,16 @@ use App\Utilities\RequestValidator;
  * @return void Outputs a JSON response indicating the result of the user's material download process.
  */
 
-// Validate request and authorization
-$apiKey = $postInputController->getApiKey();
-RequestValidator::validateUser($postData, $apiKey, 'DownloadMaterialsUpdateUser');
 
 // Initialize dependencies for DownloadModel and related controllers
-$downloadModel = new DownloadModel($database = 'standard');
-$downloadController = new DownloadController($downloadModel, $database);
-$materialController = new MaterialController();
-$championRepository = new ChampionRepository($database = 'standard');
+$databaseService = new DatabaseService($database = 'standard'); 
+$downloadModel = new DownloadModel($databaseService);
+$downloadController = new DownloadController($downloadModel, $databaseService);
+$materialModel = new MaterialModel($databaseService);
+$materialController = new MaterialController($materialModel);
+$championRepository = new ChampionRepository($databaseService);
 $championController = new ChampionController($championRepository);
+
 
 // Instantiate the UserMaterialService with necessary controllers
 $userMaterialService = new UserMaterialService(
@@ -41,9 +44,9 @@ $userMaterialService = new UserMaterialService(
 );
 
 // Log the request data
-writeLog('downloadMaterialsUpdateUser-40',  $postData);
+writeLog('downloadMaterialsUpdateUser-48',  $postData);
 
 // Set the content type to JSON and output the result of the user material download process
 header('Content-Type: application/json');
-echo $userMaterialService->handleUserMaterialDownload($postInputController->getDataSet());
+echo $userMaterialService->handleUserMaterialDownload($postData);
 

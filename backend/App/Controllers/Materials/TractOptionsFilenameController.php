@@ -12,7 +12,7 @@ class TractOptionsFilenameController {
         $this->databaseService = $databaseService;
     }
     public function getDistinctFilenameBilingualBooks($lang1, $lang2, $audience, $pagesize , $contact){
-        $query = "SELECT DISTINCT filename FROM hl_materials 
+        $query = "SELECT title, filename FROM hl_materials 
             WHERE active = :active
             AND category = :category
             AND format = :format
@@ -25,10 +25,10 @@ class TractOptionsFilenameController {
         $params = [':active' => 'YES', ':category' => 'Tracts', ':format' => 'BOOKLET',
             ':lang1' => $lang1, ':lang2' => $lang2, 
             ':audience' => $audience, ':pagesize' => $pagesize, ':contact' => $contact];
-        return $this->databaseService->executeQuery($query, $params)->fetchAll(PDO::FETCH_ASSOC);
+        return $this->databaseService->executeQuery($query, $params)->fetchOne(PDO::FETCH_ASSOC);
     }
     public function getDistinctFilenameBilingualPages($lang1, $lang2, $audience, $pagesize , $contact){
-        $query = "SELECT DISTINCT filename FROM hl_materials 
+        $query = "SELECT title, filename FROM hl_materials 
             WHERE active = :active
             AND category = :category
             AND format = :format
@@ -37,14 +37,15 @@ class TractOptionsFilenameController {
             AND audience = :audience
             AND paper_size = :pagesize
             AND contact = :contact
-            ORDER BY contact ASC";
+            ORDER BY id DESC
+            LIMIT 1";
         $params = [':active' => 'YES', ':category' => 'Tracts', ':format' => 'PAGE',
             ':lang1' => $lang1, ':lang2' => $lang2, 
             ':audience' => $audience, ':pagesize' => $pagesize, ':contact' => $contact];    
-        return $this->databaseService->executeQuery($query, $params)->fetchAll(PDO::FETCH_ASSOC);
+        return $this->databaseService->executeQuery($query, $params)->fetchOne(PDO::FETCH_ASSOC);
     }
     public function getDistinctFilenameMonolingualBooks($lang1, $audience, $pagesize , $contact){
-        $query = "SELECT DISTINCT filename FROM hl_materials 
+        $query = "SELECT title, filename FROM hl_materials 
             WHERE active = :active
             AND category = :category
             AND format = :format
@@ -53,14 +54,15 @@ class TractOptionsFilenameController {
             AND audience = :audience
             AND paper_size = :pagesize
             AND contact = :contact
-            ORDER BY contact ASC";
+            ORDER BY id DESC
+            LIMIT 1";
         $params = [':active' => 'YES', ':category' => 'Tracts', ':format' => 'BOOKLET', 
             ':lang2' => 'NONE', ':lang1' => $lang1, 
             ':audience' => $audience, ':pagesize' => $pagesize, ':contact' => $contact]; 
-        return $this->databaseService->executeQuery($query, $params)->fetchAll(PDO::FETCH_ASSOC);
+        return $this->databaseService->executeQuery($query, $params)->fetchOne(PDO::FETCH_ASSOC);
     }
     public function getDistinctFilenameMonolingualPages($lang1, $audience, $pagesize , $contact){
-        $query = "SELECT DISTINCT filename FROM hl_materials 
+        $query = "SELECT title, filename FROM hl_materials 
             WHERE active = :active
             AND category = :category
             AND format = :format
@@ -69,11 +71,12 @@ class TractOptionsFilenameController {
             AND audience = :audience
             AND paper_size = :pagesize
             AND contact = :contact
-            ORDER BY contact ASC";
+            ORDER BY id DESC
+            LIMIT 1";
         $params = [':active' => 'YES', ':category' => 'Tracts', ':format' => 'PAGE', 
             ':lang2' => 'NONE', ':lang1' => $lang1, 
             ':audience' => $audience, ':pagesize' => $pagesize, ':contact' => $contact]; 
-        return $this->databaseService->executeQuery($query, $params)->fetchAll(PDO::FETCH_ASSOC);
+        return $this->databaseService->executeQuery($query, $params)->fetchOne(PDO::FETCH_ASSOC);
     }
     
 

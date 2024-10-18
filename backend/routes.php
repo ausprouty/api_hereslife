@@ -26,17 +26,17 @@ get($path . 'import/list/members', 'App/API/Import/ImportEmailSeriesMembers.php'
 get($path . 'import/materials', 'App/API/Import/ImportMaterials.php');
 get($path . 'import/blog', 'App/API/Import/ImportBlog.php');
 get($path . 'import/downloads', 'App/API/Import/ImportDownloads.php');
-get($path . 'spirit/text/$language', 'App/API/Materials/getSpiritText.php');
-get($path . 'spirit/titles', 'App/API/Materials/getSpiritTitles.php');
-get($path . 'test', 'App/API/Materials/getTractsToView.php');
-get($path . 'tracts/view', 'App/API/Materials/getTractsToView.php');
+get($path . 'spirit/text/$language', 'App/API/Materials/GetSpiritText.php');
+get($path . 'spirit/titles', 'App/API/Materials/GetSpiritTitles.php');
+get($path . 'test', 'App/API/Materials/GetTractsToView.php');
+get($path . 'tracts/view', 'App/API/Materials/GetTractsToView.php');
 
-get($path . 'tracts/options/lang1/$tract_type', 'App/API/Materials/getTractOptionsLanguage1.php');
-get($path . 'tracts/options/lang2/$tract_type/$lang1', 'App/API/Materials/getTractOptionsLanguage2.php');
-get($path . 'tracts/options/audience/$tract_type/$lang1/$lang2', 'App/API/Materials/getTractOptionsAudience.php');
-get($path . 'tracts/options/papersize/$tract_type/$lang1/$lang2/$audience', 'App/API/Materials/getTractOptionsPageSize.php');
-get($path . 'tracts/options/contacts/$tract_type/$lang1/$lang2/$audience/$pagesize', 'App/API/Materials/getTractOptionsContacts.php');
-get($path . 'tracts/options/filename/$tract_type/$lang1/$lang2/$audience/$pagesize/$contact', 'App/API/Materials/getTractOptionsFilename.php');
+get($path . 'tracts/options/lang1/$tract_type', 'App/API/Materials/GetTractOptionsLanguage1.php');
+get($path . 'tracts/options/lang2/$tract_type/$lang1', 'App/API/Materials/GetTractOptionsLanguage2.php');
+get($path . 'tracts/options/audience/$tract_type/$lang1/$lang2', 'App/API/Materials/GetTractOptionsAudience.php');
+get($path . 'tracts/options/papersize/$tract_type/$lang1/$lang2/$audience', 'App/API/Materials/GetTractOptionsPageSize.php');
+get($path . 'tracts/options/contacts/$tract_type/$lang1/$lang2/$audience/$pagesize', 'App/API/Materials/GetTractOptionsContacts.php');
+get($path . 'tracts/options/filename/$tract_type/$lang1/$lang2/$audience/$pagesize/$contact', 'App/API/Materials/GetTractOptionsFilename.php');
 post($path . 'admin/create', 'App/API/People/AdminCreate.php', $postData);
 post($path . 'admin/login', 'App/API/People/AdminLogin.php', $postData);
 post($path . 'admin/users/unsubscribe', 'App/API/People/AdminUsersUnsubscribe.php', $postData);
